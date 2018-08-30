@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         let flowLayout = UICollectionViewFlowLayout()
-        let collectionView = AnalyticsCollectionViewController(collectionViewLayout: flowLayout)
+        let collectionView = MessengerViewController(collectionViewLayout: flowLayout)
         window?.rootViewController = UINavigationController(rootViewController: collectionView)
         window?.makeKeyAndVisible()
         return true

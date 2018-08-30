@@ -14,6 +14,7 @@
 		2739BB8C2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB8B2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift */; };
 		2739BB8E21374118007B1D23 /* PieChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */; };
 		2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9221378353007B1D23 /* AnalyticsChartType.swift */; };
+		2739BB972138A5F8007B1D23 /* MessengerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB962138A5F8007B1D23 /* MessengerViewController.swift */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
 		27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A622452134A10A007CE1CA /* FormViewConfigurer.swift */; };
@@ -46,6 +47,7 @@
 		2739BB8B2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBarChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB9221378353007B1D23 /* AnalyticsChartType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsChartType.swift; sourceTree = "<group>"; };
+		2739BB962138A5F8007B1D23 /* MessengerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerViewController.swift; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27A622452134A10A007CE1CA /* FormViewConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewConfigurer.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				27A622472134AF43007CE1CA /* ForgotPasswordViewController.swift */,
 				27ACBAE1213648CE0058349F /* AlertViewController.swift */,
 				27ACBAE82136584B0058349F /* LoadingViewController.swift */,
+				2739BB962138A5F8007B1D23 /* MessengerViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				502979FD2131F039005E5DFB /* WelcomeViewController.swift in Sources */,
 				50297A1C21332ABD005E5DFB /* FormView.swift in Sources */,
 				2739BB86213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift in Sources */,
+				2739BB972138A5F8007B1D23 /* MessengerViewController.swift in Sources */,
 				27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */,
 				27ACBADC2135FF380058349F /* RoundBackButton.swift in Sources */,
 				27A622482134AF43007CE1CA /* ForgotPasswordViewController.swift in Sources */,
