@@ -40,6 +40,28 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         return chart
     }()
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.80
+        label.textColor = .black
+        label.text = "Pie Chart"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.text = "The tastiest chart. Great for visualizing how things are split."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    
     var backgroundViewMultiplier: CGFloat = 0.9
     
     override init(frame: CGRect) {
@@ -48,10 +70,10 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         
         chartView.drawHoleEnabled = false
         [outerView, background].forEach { addSubview($0) }
-        background.addSubview(chartView)
+        [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
         
-        setDataCount(6, range: 100)
+        setDataCount(4, range: 100)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,15 +92,14 @@ class PieChartCollectionViewCell: UICollectionViewCell {
     }
 
     func setDataCount(_ count: Int, range: UInt32) {
-        let entries = (0..<count).map { (i) -> PieChartDataEntry in
-            // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-            return PieChartDataEntry(value: Double(arc4random_uniform(range) + range / 5), label: "Label")
-        }
         
-        let set = PieChartDataSet(values: entries, label: "Election Results")
-        set.drawIconsEnabled = false
-        set.sliceSpace = 2
         
+        let entry1 = PieChartDataEntry(value: 64, label: "Guys")
+        let entry2 = PieChartDataEntry(value: 36, label: "Girls")
+        let entries = [entry1, entry2]
+        
+        let set = PieChartDataSet(values: entries, label: nil)
+        set.sliceSpace = 3
         set.colors = [.cyan]
         
         let data = PieChartData(dataSet: set)
@@ -90,8 +111,8 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         pFormatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         
-        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.white)
+        data.setValueFont(.systemFont(ofSize: 14, weight: .medium))
+        data.setValueTextColor(.gray)
         
         chartView.data = data
         chartView.highlightValues(nil)
@@ -104,9 +125,19 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         background.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         background.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        chartView.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10).isActive = true
-        chartView.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -10).isActive = true
-        chartView.topAnchor.constraint(equalTo: background.topAnchor, constant: 10).isActive = true
+        chartView.widthAnchor.constraint(equalTo: chartView.heightAnchor).isActive = true
+        chartView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 10).isActive = true
+        chartView.centerXAnchor.constraint(equalTo: background.centerXAnchor).isActive = true
         chartView.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -10).isActive = true
+        
+        titleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 20).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 33).isActive = true
+        
+        subtitleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        subtitleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
+        subtitleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }

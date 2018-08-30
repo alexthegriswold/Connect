@@ -47,6 +47,27 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         return chart
     }()
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.80
+        label.textColor = .black
+        label.text = "Vertical Bar Chart"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.text = "Check out data for each day of the week!"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     var backgroundViewMultiplier: CGFloat = 0.9
     
     override init(frame: CGRect) {
@@ -66,7 +87,7 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         xAxis.granularity = 1
 
         [outerView, background].forEach { addSubview($0) }
-        background.addSubview(chartView)
+        [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
         
         setDataCount(4, range: 100)
@@ -124,9 +145,19 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         background.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         background.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        chartView.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10).isActive = true
-        chartView.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -10).isActive = true
-        chartView.topAnchor.constraint(equalTo: background.topAnchor, constant: 10).isActive = true
+        chartView.widthAnchor.constraint(equalTo: chartView.heightAnchor).isActive = true
+        chartView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 10).isActive = true
+        chartView.centerXAnchor.constraint(equalTo: background.centerXAnchor).isActive = true
         chartView.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -10).isActive = true
+        
+        titleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 20).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 33).isActive = true
+        
+        subtitleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        subtitleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
+        subtitleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }

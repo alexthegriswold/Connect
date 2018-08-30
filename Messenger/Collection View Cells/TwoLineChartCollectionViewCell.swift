@@ -60,9 +60,39 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         xAxis.labelFont = labelFont
         xAxis.labelTextColor = labelTextColor
         
-        chart.legend.enabled = false
+        let legend = chart.legend
+        legend.horizontalAlignment = .left
+        legend.verticalAlignment = .bottom
+        legend.orientation = .horizontal
+        legend.drawInside = false
+        legend.formSize = 9
+        legend.form = .circle
+        legend.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium)
+        legend.textColor = .gray
+        legend.xEntrySpace = 4
         
         return chart
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.80
+        label.textColor = .black
+        label.text = "Two Line Chart"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.text = "Compare how two data sets stack up to one another."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     var backgroundViewMultiplier: CGFloat = 0.9
@@ -74,7 +104,7 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
             dataEntries.append(ChartDataEntry(x: Double(i), y: Double(i)))
         }
         
-        let dataSet = LineChartDataSet(values: dataEntries, label: "AYYY")
+        let dataSet = LineChartDataSet(values: dataEntries, label: "AAPL")
         dataSet.drawCircleHoleEnabled = false
         dataSet.circleRadius = 5
         
@@ -89,7 +119,7 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
             dataEntries2.append(ChartDataEntry(x: Double(i), y: Double(10 - i)))
         }
         
-        let dataSet2 = LineChartDataSet(values: dataEntries2, label: "YOOO")
+        let dataSet2 = LineChartDataSet(values: dataEntries2, label: "GOOGL")
         dataSet2.drawCircleHoleEnabled = false
         dataSet2.circleRadius = 5
         
@@ -110,7 +140,7 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         [outerView, background].forEach { addSubview($0) }
-        background.addSubview(chartView)
+        [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
         
         setChartData(data: lineChartData)
@@ -143,9 +173,19 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         background.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         background.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        chartView.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10).isActive = true
-        chartView.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -10).isActive = true
-        chartView.topAnchor.constraint(equalTo: background.topAnchor, constant: 10).isActive = true
+        chartView.widthAnchor.constraint(equalTo: chartView.heightAnchor).isActive = true
+        chartView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 10).isActive = true
+        chartView.centerXAnchor.constraint(equalTo: background.centerXAnchor).isActive = true
         chartView.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -10).isActive = true
+        
+        titleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: background.topAnchor, constant: 20).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 33).isActive = true
+        
+        subtitleLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 20).isActive = true
+        subtitleLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -20).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
+        subtitleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }
