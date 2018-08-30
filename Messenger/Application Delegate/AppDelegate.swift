@@ -20,7 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)], for: .highlighted)
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: WelcomeViewController())
+        let flowLayout = UICollectionViewFlowLayout()
+        let collectionView = AnalyticsCollectionViewController(collectionViewLayout: flowLayout)
+        window?.rootViewController = UINavigationController(rootViewController: collectionView)
         window?.makeKeyAndVisible()
         return true
     }
