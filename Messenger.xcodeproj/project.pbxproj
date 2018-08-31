@@ -15,6 +15,9 @@
 		2739BB8E21374118007B1D23 /* PieChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */; };
 		2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9221378353007B1D23 /* AnalyticsChartType.swift */; };
 		2739BB972138A5F8007B1D23 /* MessengerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB962138A5F8007B1D23 /* MessengerViewController.swift */; };
+		2739BB992138A801007B1D23 /* ChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */; };
+		2739BB9B2138EA87007B1D23 /* SenderChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */; };
+		2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
 		27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A622452134A10A007CE1CA /* FormViewConfigurer.swift */; };
@@ -48,6 +51,9 @@
 		2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB9221378353007B1D23 /* AnalyticsChartType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsChartType.swift; sourceTree = "<group>"; };
 		2739BB962138A5F8007B1D23 /* MessengerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerViewController.swift; sourceTree = "<group>"; };
+		2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewCell.swift; sourceTree = "<group>"; };
+		2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderChatCell.swift; sourceTree = "<group>"; };
+		2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerInputView.swift; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27A622452134A10A007CE1CA /* FormViewConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewConfigurer.swift; sourceTree = "<group>"; };
@@ -96,6 +102,8 @@
 				2739BB89213740F7007B1D23 /* VerticalBarChartCollectionViewCell.swift */,
 				2739BB8B2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift */,
 				2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */,
+				2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */,
+				2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */,
 			);
 			path = "Collection View Cells";
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 				27ACBADB2135FF380058349F /* RoundBackButton.swift */,
 				27ACBADF2136462D0058349F /* AlertView.swift */,
 				27ACBAE6213658400058349F /* LoadingView.swift */,
+				2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -355,6 +364,7 @@
 			files = (
 				27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */,
 				27ACBAE2213648CE0058349F /* AlertViewController.swift in Sources */,
+				2739BB992138A801007B1D23 /* ChatCollectionViewCell.swift in Sources */,
 				50297A0D2131F0B1005E5DFB /* WelcomeView.swift in Sources */,
 				27ACBAE521364F520058349F /* AlertViewModel.swift in Sources */,
 				27ACBADA2135D89F0058349F /* SignUpAnimationController.swift in Sources */,
@@ -371,9 +381,11 @@
 				2739BB8E21374118007B1D23 /* PieChartCollectionViewCell.swift in Sources */,
 				27ACBAE02136462D0058349F /* AlertView.swift in Sources */,
 				2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */,
+				2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */,
 				50297A1A21332A93005E5DFB /* SignUpViewController.swift in Sources */,
 				27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */,
 				2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */,
+				2739BB9B2138EA87007B1D23 /* SenderChatCell.swift in Sources */,
 				2739BB8A213740F7007B1D23 /* VerticalBarChartCollectionViewCell.swift in Sources */,
 				2739BB88213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift in Sources */,
 				27ACBADE213634F40058349F /* LoginAnimationController.swift in Sources */,
