@@ -11,6 +11,8 @@ import UIKit
 
 class MessengerViewController: UICollectionViewController {
     
+    let authenicator = UserAuthenticator()
+    
     //data source
     var messsages: [(String, Bool)] = {
         var messages = [(String, Bool)]()
@@ -26,6 +28,17 @@ class MessengerViewController: UICollectionViewController {
     //view contraints
     var messengerInputViewBottomConstraint: NSLayoutConstraint?
     var actionButtonWidthConstraint: NSLayoutConstraint?
+    
+    let user: User
+    
+    init(collectionViewLayout layout: UICollectionViewLayout, user: User) {
+        self.user = user
+        super.init(collectionViewLayout: layout)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: View Controller override functions
     override func viewDidLoad() {
@@ -179,6 +192,7 @@ class MessengerViewController: UICollectionViewController {
     }
     
     @objc func dismissViewController() {
+        authenicator.signOut(user: user)
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -73,10 +73,10 @@ extension SignUpViewController: FormViewDelegate {
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
-        let (success, response) = authenticator.createUser(username: username, password: password)
+        let (success, response, user) = authenticator.createUser(username: username, password: password)
         
         if success {
-            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), user: user!)
             let navigationController = UINavigationController(rootViewController: messengerViewController)
             self.present(navigationController, animated: true, completion: nil)
         } else {

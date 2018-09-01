@@ -23,13 +23,20 @@ class UserAuthenticator {
         return realm.objects(User.self).filter("username = %@", username).first == nil ? false : true
     }
     
-    func authenticate(password: String, for username: String) -> (Bool, AuthenticationResponse) {
+    func authenticate(password: String, for username: String) -> (Bool, AuthenticationResponse, User?) {
         
         let userExists = authenticate(username: username)
-        if !userExists { return (false, .invalidUser) }
-        let passwordObject = realm.objects(User.self).filter("password = %@ AND username = %@", password, username).first
+        if !userExists { return (false, .invalidUser, nil) }
+        let userObject = realm.objects(User.self).filter("password = %@ AND username = %@", password, username).first
         
-        return passwordObject == nil ? (false, .invalidPassword) : (true, .success)
+        if let userObject = userObject {
+            try! realm.write {
+                userObject.signedIn = true
+            }
+            return (true, .success, userObject)
+        } else {
+            return (false, .invalidPassword, nil)
+        }
     }
     
     func resetPassword(for username: String, with password: String) -> (Bool, AuthenticationResponse){
@@ -45,10 +52,10 @@ class UserAuthenticator {
         }
     }
     
-    func createUser(username: String, password: String) -> (Bool, AuthenticationResponse) {
+    func createUser(username: String, password: String) -> (Bool, AuthenticationResponse, User?) {
         let userExists = authenticate(username: username)
         if userExists {
-            return (false, .userExists)
+            return (false, .userExists, nil)
         } else {
             
             let user = User()
@@ -60,10 +67,18 @@ class UserAuthenticator {
                 realm.add(user)
             }
             
-            return (true, .success)
+            return (true, .success, user)
         }
-            
-        
+    }
+    
+    func checkIfLoggedIn() -> User? {
+        return realm.objects(User.self).filter("signedIn == true").first
+    }
+    
+    func signOut(user: User) {
+        try! realm.write {
+            user.signedIn = false
+        }
     }
     
     func createLoginStringResponse(for response: AuthenticationResponse) -> String {

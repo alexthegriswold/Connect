@@ -76,10 +76,10 @@ extension LoginViewController: FormViewDelegate {
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
-        let (success, response) = authenticator.authenticate(password: password, for: username)
+        let (success, response, user) = authenticator.authenticate(password: password, for: username)
         
         if success {
-            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), user: user!)
             let navigationController = UINavigationController(rootViewController: messengerViewController)
             self.present(navigationController, animated: true, completion: nil)
         } else {

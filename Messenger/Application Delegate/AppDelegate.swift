@@ -7,25 +7,29 @@
 //
 
 import UIKit
+import Realm
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    
+    
+    
     var window: UIWindow?
     
     let createTestData = UserTestDataGenerator()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)], for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)], for: .highlighted)
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        let flowLayout = UICollectionViewFlowLayout()
         let viewController = WelcomeViewController()
-        
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
+        
         return true
     }
 

@@ -11,7 +11,14 @@ import AVFoundation
 
 class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigationControllerDelegate {
     
+    let authenticator = UserAuthenticator()
+    
     //views
+    let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     let welcomeView = WelcomeView()
     var avPlayer: AVPlayer
     var avPlayerLayer: AVPlayerLayer
@@ -29,6 +36,8 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         super.init(nibName: nil, bundle: nil)
         
         welcomeView.delegate = self
+        
+        
         
     }
     
@@ -52,11 +61,15 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
     
     override func viewWillAppear(_ animated: Bool) {
         
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        welcomeView.signUp.titleLabel?.alpha = 1.0
-        welcomeView.login.alpha = 1.0
-        
+        if let user = authenticator.checkIfLoggedIn() {
+            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), user: user)
+            let navigationController = UINavigationController(rootViewController: messengerViewController)
+            self.present(navigationController, animated: false, completion: nil)
+        } else {
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
+            welcomeView.signUp.titleLabel?.alpha = 1.0
+            welcomeView.login.alpha = 1.0
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
