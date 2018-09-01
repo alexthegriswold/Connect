@@ -28,13 +28,12 @@ class PhotosGalleryViewController: UICollectionViewController {
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
-        imageView.backgroundColor = .blue
         return imageView
     }()
     
     let submitButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .cyan
+        button.backgroundColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
         button.setTitle("Send", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)

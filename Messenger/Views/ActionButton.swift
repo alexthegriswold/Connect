@@ -13,7 +13,7 @@ class ActionButton: UIView {
     weak var delegate: ActionButtonDelegate? = nil
     
     var plusButton: RoundBackButton = {
-        let button = RoundBackButton(frame: .zero, width: 40)
+        let button = RoundBackButton(frame: .zero, width: 40, color: UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0))
         button.transform = CGAffineTransform(rotationAngle: -2.35619)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -47,7 +47,7 @@ class ActionButton: UIView {
         layer.masksToBounds = true
         layer.cornerRadius = 20
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .cyan
+        backgroundColor = UIColor(red:0.13, green:0.53, blue:0.90, alpha:1.0)
         [plusButton, imageButton].forEach { addSubview($0) }
         
         setupAutoLayout()

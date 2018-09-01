@@ -57,10 +57,12 @@ class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate 
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+        super.touchesEnded(touches, with: event)
         longPressGestureRecognizer?.isEnabled = true
         isOpen = true
     }
+    
+    
 }
 
 protocol MessageCellDelegate: class {

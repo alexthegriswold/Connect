@@ -9,22 +9,24 @@
 import Foundation
 import UIKit
 
-class MessengerViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class MessengerViewController: UICollectionViewController {
     
+    //data source
     var messsages: [(String, Bool)] = {
         var messages = [(String, Bool)]()
         return messages
     }()
     
+    var images = [UIImage]()
+    
     //views
     let messengerInputView = MessengerInputView()
-    var messengerInputViewBottomConstraint: NSLayoutConstraint?
-
     let actionButton = ActionButton()
     
+    //view contraints
+    var messengerInputViewBottomConstraint: NSLayoutConstraint?
     var actionButtonWidthConstraint: NSLayoutConstraint?
     
-
     //MARK: View Controller override functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,19 +36,11 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
         
         actionButton.delegate = self
         
-        
-        view.addSubview(messengerInputView)
-        view.addSubview(actionButton)
+        [messengerInputView, actionButton].forEach { view.addSubview($0) }
 
         title = "Connect"
-        collectionView?.alwaysBounceVertical = true 
-        collectionView?.backgroundColor = .white
-        collectionView?.register(ChatCollectionViewCell.self, forCellWithReuseIdentifier: "ChatCell")
-         collectionView?.register(SenderChatCell.self, forCellWithReuseIdentifier: "SenderCell")
         
-        //change
-        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50 + 10, right: 0)
-        
+        setupCollectionView()
         setupNavBar()
         setupAutoLayout()
         
@@ -55,41 +49,32 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
         
         actionButton.plusButton.addTarget(self, action: #selector(tappedActionButton), for: .touchUpInside)
         
-  
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.collectionView?.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        if let collectionView = collectionView {
+            collectionView.removeConstraints(collectionView.constraints)
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            collectionView.bottomAnchor.constraint(equalTo: messengerInputView.topAnchor).isActive = true
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            collectionView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 10, right: 0)
+        }
+        
+    }
+    
+    @objc func dismissKeyboard() {
+        self.messengerInputView.textView.resignFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.messengerInputView.textView.becomeFirstResponder()
-    }
-    
-    @objc func tappedActionButton() {
         
-        if actionButton.expanded {
-            self.actionButtonWidthConstraint?.constant = self.view.frame.width - 20
-            self.messengerInputView.startTextViewHideAnimation()
-
-            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
-
-                self.messengerInputView.textViewBackground.alpha = 0.0
-                self.messengerInputView.textView.alpha = 0.0
-                self.view.layoutIfNeeded()
-
-            }, completion: nil)
-        } else {
-            
-            self.actionButtonWidthConstraint?.constant = 40
-            self.messengerInputView.undoTextViewHideAnimation()
-            
-            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
-
-                self.messengerInputView.textViewBackground.alpha = 1.0
-                self.messengerInputView.textView.alpha = 1.0
-                self.view.layoutIfNeeded()
-
-            }, completion: nil)
-        }
-        
+        //self.messengerInputView.textView.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -111,11 +96,13 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messsages.count
+        return images.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        
+        /*
         let widthOfCell = view.frame.width * 0.7
         let size = CGSize(width: widthOfCell, height: 0)
         
@@ -141,34 +128,58 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
           
             return cell
         }
+ */
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ChatImageCollectionViewCell
+        cell.imageView.image = images[indexPath.item]
+        return cell
     }
     
-    //MARK: Submit Text
-    @objc func submitText() {
-        print("submit")
+    //MARK: Helper functions
+    func setupCollectionView() {
+        collectionView?.alwaysBounceVertical = true
+        collectionView?.backgroundColor = .white
+        collectionView?.register(ChatCollectionViewCell.self, forCellWithReuseIdentifier: "ChatCell")
+        collectionView?.register(SenderChatCell.self, forCellWithReuseIdentifier: "SenderCell")
+        collectionView?.register(ChatImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCell")
     }
     
-    //MARK: CollectionView Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+    //MARK: Action Listeners
+    @objc func tappedActionButton() {
+        
+        if actionButton.expanded {
+            self.actionButtonWidthConstraint?.constant = self.view.frame.width - 20
+            self.messengerInputView.startTextViewHideAnimation()
+            
+            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
+                
+                self.messengerInputView.textViewBackground.alpha = 0.0
+                self.messengerInputView.textView.alpha = 0.0
+                self.view.layoutIfNeeded()
+                
+            }, completion: nil)
+        } else {
+            
+            self.actionButtonWidthConstraint?.constant = 40
+            self.messengerInputView.undoTextViewHideAnimation()
+            
+            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
+                
+                self.messengerInputView.textViewBackground.alpha = 1.0
+                self.messengerInputView.textView.alpha = 1.0
+                self.view.layoutIfNeeded()
+                
+            }, completion: nil)
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let widthOfCell = view.frame.width * 0.7
-        let size = CGSize(width: widthOfCell, height: 0)
-        
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
-        
-        let estimatedFrame = NSString(string: messsages[indexPath.row].0).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        
-        let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
-    
-        return CGSize(width: view.frame.width, height: height)
+    @objc func pushChartsViewController() {
+        let viewController = AnalyticsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+    @objc func dismissViewController() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: Notification Listeners
@@ -200,6 +211,9 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     //MARK: Helper functions
     func setupNavBar() {
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(dismissViewController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Charts", style: .plain, target: self, action: #selector(pushChartsViewController))
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "  Back", style: .plain, target: nil, action: nil)
         
         self.navigationController?.navigationBar.isTranslucent = false
@@ -214,45 +228,72 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     func setupAutoLayout() {
     
         actionButtonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
-        
-        actionButton.addConstraints([actionButtonWidthConstraint!])
-        
         actionButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: messengerInputView.bottomAnchor, constant: -44).isActive = true
         actionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        actionButton.addConstraints([actionButtonWidthConstraint!])
         
         messengerInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         messengerInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         messengerInputViewBottomConstraint = NSLayoutConstraint(item: messengerInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(messengerInputViewBottomConstraint!)
     }
+}
+
+extension MessengerViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        
+        let width = self.view.frame.width * 0.7
+        let image = images[indexPath.item]
+        let ratio = image.size.height/image.size.width
+        return CGSize(width: width, height: width * ratio)
+        
+        /*
+        let widthOfCell = view.frame.width * 0.7
+        let size = CGSize(width: widthOfCell, height: 0)
+        
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
+        
+        let estimatedFrame = NSString(string: messsages[indexPath.row].0).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
+        
+        return CGSize(width: view.frame.width, height: height)
+ */
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+    }
 }
 
 extension MessengerViewController: MessengerInputViewDelegate {
     func lineDidUpdate(offset: CGFloat) {
         
-        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50 + 10 + offset, right: 0)
         
-        if messsages.count > 0 {
-            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
-        }
-        
+       
     }
     
     func didHitSend(message: String) {
+        if message.count == 0 { return }
         
         let newMessage = (message, true)
         messsages.append(newMessage)
-        collectionView?.reloadData()
+        collectionView?.insertItems(at: [IndexPath(row: messsages.count - 1, section: 0)])
+        
         if messsages.count > 0 {
             let indexPath = IndexPath(item: messsages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
+
     }
 }
+
 
 extension MessengerViewController: ActionButtonDelegate {
     func tappedImageButton() {
@@ -260,20 +301,20 @@ extension MessengerViewController: ActionButtonDelegate {
         
         let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.delegate = self
+        self.view.endEditing(true)
         self.navigationController?.pushViewController(collectionView, animated: true)
     }
 }
 
 extension MessengerViewController: PhotosGalleryDelegate {
     func selectedPhoto(image: UIImage) {
-        let imageView = UIImageView(image: image)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(imageView)
         
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: messengerInputView.topAnchor).isActive = true 
+        images.append(image)
+        collectionView?.insertItems(at: [IndexPath(row: images.count - 1, section: 0)])
+        if images.count > 0 {
+            let indexPath = IndexPath(item: images.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        }
     }
 }
 

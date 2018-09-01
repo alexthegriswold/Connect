@@ -16,10 +16,15 @@ class RoundBackButton: UIButton {
     let yOffset: CGFloat
     let buttonRadius: CGFloat = 175.0
     let scale: CGFloat
+    var circleColor = UIColor.darkGray
     
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
     
-    init(frame: CGRect, width: CGFloat) {
+    init(frame: CGRect, width: CGFloat, color: UIColor? = nil) {
+        
+        if let color = color {
+            circleColor = color
+        }
         
         var buttonOriginalWidth = buttonRadius * 2
         scale = width/buttonOriginalWidth
@@ -49,7 +54,7 @@ class RoundBackButton: UIButton {
         shapeLayer.path = circlePath.cgPath
         
         //change the fill color
-        shapeLayer.fillColor = UIColor.darkGray.cgColor
+        shapeLayer.fillColor = circleColor.cgColor
         
         self.layer.addSublayer(shapeLayer)
         

@@ -139,7 +139,7 @@ class HorizontalBarChartCollectionViewCell: UICollectionViewCell {
         }
         
         let set = BarChartDataSet(values: yVals, label: nil)
-        set.colors = [.cyan]
+        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
         set.drawValuesEnabled = true
         set.drawIconsEnabled = true
     

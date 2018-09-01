@@ -37,7 +37,7 @@ class WelcomeView: UIView {
         label.text = "A chat app"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.medium)
-        label.textColor = UIColor(red:0.39, green:0.52, blue:0.61, alpha:1.0)
+        label.textColor = UIColor(red:0.81, green:0.85, blue:0.86, alpha:1.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -58,7 +58,7 @@ class WelcomeView: UIView {
         let button = UIButton()
         button.setTitle("I already have an account", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        button.setTitleColor(UIColor(red:0.39, green:0.52, blue:0.61, alpha:1.0), for: .normal)
+        button.setTitleColor(UIColor(red:0.81, green:0.85, blue:0.86, alpha:1.0), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

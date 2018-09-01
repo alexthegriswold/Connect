@@ -108,10 +108,10 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         dataSet.drawCircleHoleEnabled = false
         dataSet.circleRadius = 5
         
-        dataSet.colors = [.cyan]
+        dataSet.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
         dataSet.valueFont = .systemFont(ofSize: 10, weight: UIFont.Weight.regular)
-        dataSet.valueTextColor = .cyan
-        dataSet.circleColors = [.cyan]
+        dataSet.valueTextColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
+        dataSet.circleColors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
         
         var dataEntries2 = [ChartDataEntry]()
         

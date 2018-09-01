@@ -121,10 +121,10 @@ class FormView: UIView {
     
     func setSubmitButton(to active: Bool) {
         if active {
-            submitButton.backgroundColor = .cyan
+            submitButton.backgroundColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
             submitButton.isEnabled = true
         } else {
-            submitButton.backgroundColor = .gray
+            submitButton.backgroundColor = UIColor(red:0.69, green:0.75, blue:0.77, alpha:1.0)
             submitButton.isEnabled = false
         }
     }

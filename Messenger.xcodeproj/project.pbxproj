@@ -21,6 +21,7 @@
 		2739BBA1213A32AD007B1D23 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA0213A32AD007B1D23 /* ActionButton.swift */; };
 		2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */; };
 		2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */; };
+		2739BBA7213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
 		27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A622452134A10A007CE1CA /* FormViewConfigurer.swift */; };
@@ -60,6 +61,7 @@
 		2739BBA0213A32AD007B1D23 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosGalleryViewController.swift; sourceTree = "<group>"; };
 		2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27A622452134A10A007CE1CA /* FormViewConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewConfigurer.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */,
 				2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */,
 				2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */,
+				2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */,
 			);
 			path = "Collection View Cells";
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				2739BB8C2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift in Sources */,
 				2739BB8E21374118007B1D23 /* PieChartCollectionViewCell.swift in Sources */,
 				27ACBAE02136462D0058349F /* AlertView.swift in Sources */,
+				2739BBA7213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift in Sources */,
 				2739BBA1213A32AD007B1D23 /* ActionButton.swift in Sources */,
 				2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */,
 				2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */,

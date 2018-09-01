@@ -215,6 +215,7 @@ extension MessengerInputView: UITextViewDelegate {
 
         delegate?.didHitSend(message: textView.text)
         self.textView.text = nil
+        self.textView.isScrollEnabled = false
         self.changeViewHeights(textViewHeight: baseTextViewHeight, scrollEnabled: false)
         
         return false

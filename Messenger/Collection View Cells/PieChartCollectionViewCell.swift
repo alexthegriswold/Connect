@@ -100,7 +100,7 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         
         let set = PieChartDataSet(values: entries, label: nil)
         set.sliceSpace = 3
-        set.colors = [.cyan]
+        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
         
         let data = PieChartData(dataSet: set)
         
