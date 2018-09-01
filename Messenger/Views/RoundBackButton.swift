@@ -15,20 +15,23 @@ class RoundBackButton: UIButton {
     let xOffset: CGFloat
     let yOffset: CGFloat
     let buttonRadius: CGFloat = 175.0
-    let scale: CGFloat = 0.09
+    let scale: CGFloat
     
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.dark))
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, width: CGFloat) {
+        
+        var buttonOriginalWidth = buttonRadius * 2
+        scale = width/buttonOriginalWidth
         
         xOffset = buttonRadius
         yOffset = buttonRadius
         
         super.init(frame: frame)
 
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: (buttonRadius * 2) * scale).isActive = true
-        self.widthAnchor.constraint(equalToConstant: (buttonRadius * 2) * scale).isActive = true
+        //self.translatesAutoresizingMaskIntoConstraints = false
+       // self.heightAnchor.constraint(equalToConstant: width).isActive = true
+        //self.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

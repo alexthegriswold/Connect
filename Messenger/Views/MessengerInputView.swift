@@ -13,12 +13,15 @@ struct MessengerInputSizeComponents {
     let textViewHeight: CGFloat = 40
     let textViewBottomMargin: CGFloat = 10
     let textViewLeftMargin: CGFloat = 20
-    let textViewRightMargin: CGFloat = 60
+    let textViewRightMargin: CGFloat = 20
     let textViewBackgroundLeftMargin: CGFloat = 60
     let textViewBackgroundRightMargin: CGFloat = 10
+    let actionButtonWidth: CGFloat = 40
 
     let textViewBackgroundCornerRadius: CGFloat
     let inputViewHeight: CGFloat
+    
+    
   
     init() {
         textViewBackgroundCornerRadius = textViewHeight/2
@@ -28,6 +31,8 @@ struct MessengerInputSizeComponents {
 }
 
 class MessengerInputView: UIView {
+    
+    weak var delegate: MessengerInputViewDelegate? = nil
     
     let backgroundViewLeftMargin = MessengerInputSizeComponents().textViewBackgroundLeftMargin
     let backgroundViewRightMargin = MessengerInputSizeComponents().textViewBackgroundRightMargin
@@ -49,15 +54,21 @@ class MessengerInputView: UIView {
         let textView = UITextView()
         textView.backgroundColor = nil
         textView.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
-        textView.returnKeyType = .default
+        textView.returnKeyType = .done
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         return textView
     }()
     
+    
+    
     var textViewHeightConstraint: NSLayoutConstraint?
     var backgroundViewHeightConstraint: NSLayoutConstraint?
     var inputViewHeightConstraint: NSLayoutConstraint?
+    
+    var actionButtonWidthConstraint: NSLayoutConstraint?
+    var actionButtonTopConstraint: NSLayoutConstraint?
+    
     
     var textViewHeightMarker: CGFloat = 0
     var textViewLinesCount = 1
@@ -66,6 +77,9 @@ class MessengerInputView: UIView {
     var textViewLineHeight: CGFloat = 0
     
     private var parentViewWidth: CGFloat = 0.0
+    
+    var lastTextViewHeightSettings = (CGFloat(0), false)
+    var lastTextViewHeightSettingsForAnimation = (CGFloat(0), false)
     
     override init(frame: CGRect) {
         
@@ -89,6 +103,23 @@ class MessengerInputView: UIView {
         [textViewBackground, textView].forEach { addSubview($0) }
         
         setupAutoLayout()
+        
+        
+        //actionButton.addTarget(self, action: #selector(tappedActionButton), for: .touchUpInside)
+    }
+    
+    @objc func tappedActionButton() {
+        
+      
+        //self.actionButtonWidthConstraint?.constant = self.parentViewWidth - 20
+        self.changeViewHeights(textViewHeight: baseTextViewHeight, scrollEnabled: false)
+        
+        UIView.animate(withDuration: 0.10, delay: 0, options: .curveEaseIn, animations: {
+            
+            self.layoutIfNeeded()
+        }, completion: { (completed) in
+            
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -110,6 +141,8 @@ class MessengerInputView: UIView {
     //the view will have a height of the background plus safe area plus 10
     
     func setupAutoLayout() {
+        
+        let actionButtonWidth = MessengerInputSizeComponents().actionButtonWidth
     
         textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
     
@@ -146,13 +179,30 @@ class MessengerInputView: UIView {
         textViewHeightConstraint?.constant = textViewHeight
         backgroundViewHeightConstraint?.constant = backgroundViewHeight
         inputViewHeightConstraint?.constant = inputViewHeight + safeAreaHeight
+        
+        lastTextViewHeightSettings = (textViewHeight, scrollEnabled)
+    }
+    
+    func startTextViewHideAnimation() {
+        lastTextViewHeightSettingsForAnimation = lastTextViewHeightSettings
+        changeViewHeights(textViewHeight: baseTextViewHeight, scrollEnabled: false)
+    }
+    
+    func undoTextViewHideAnimation() {
+        let height = lastTextViewHeightSettingsForAnimation.0
+        let scrollEnabled = lastTextViewHeightSettingsForAnimation.1
+        changeViewHeights(textViewHeight: height, scrollEnabled: scrollEnabled)
     }
     
     func estimateTextViewHeight(width: CGFloat) -> CGFloat {
-    
+        
         let size = CGSize(width: width, height: 0)
         return textView.sizeThatFits(size).height
     }
+}
+
+protocol MessengerInputViewDelegate: class {
+    func lineDidUpdate(offset: CGFloat)
 }
 
 extension MessengerInputView: UITextViewDelegate {
@@ -178,5 +228,16 @@ extension MessengerInputView: UITextViewDelegate {
             textView.isScrollEnabled = false
             changeViewHeights(textViewHeight: textViewHeight, scrollEnabled: false)
         }
+        
+        var offset: CGFloat = 0
+
+        if numberOfLines < 5 {
+            offset = (baseTextViewHeight + (textViewLineHeight * (numberOfLines - 1)) - 40)
+        } else {
+            offset = (baseTextViewHeight + (textViewLineHeight * (numberOfLines - 2)) - 40 + 11)
+        }
+        
+        delegate?.lineDidUpdate(offset: offset)
     }
 }
+

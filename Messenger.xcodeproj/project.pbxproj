@@ -18,6 +18,9 @@
 		2739BB992138A801007B1D23 /* ChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */; };
 		2739BB9B2138EA87007B1D23 /* SenderChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */; };
 		2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */; };
+		2739BBA1213A32AD007B1D23 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA0213A32AD007B1D23 /* ActionButton.swift */; };
+		2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */; };
+		2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
 		27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A622452134A10A007CE1CA /* FormViewConfigurer.swift */; };
@@ -54,6 +57,9 @@
 		2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenderChatCell.swift; sourceTree = "<group>"; };
 		2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerInputView.swift; sourceTree = "<group>"; };
+		2739BBA0213A32AD007B1D23 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosGalleryViewController.swift; sourceTree = "<group>"; };
+		2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27A622452134A10A007CE1CA /* FormViewConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewConfigurer.swift; sourceTree = "<group>"; };
@@ -104,6 +110,7 @@
 				2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */,
 				2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */,
 				2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */,
+				2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */,
 			);
 			path = "Collection View Cells";
 			sourceTree = "<group>";
@@ -172,6 +179,7 @@
 				27ACBAE1213648CE0058349F /* AlertViewController.swift */,
 				27ACBAE82136584B0058349F /* LoadingViewController.swift */,
 				2739BB962138A5F8007B1D23 /* MessengerViewController.swift */,
+				2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -186,6 +194,7 @@
 				27ACBADF2136462D0058349F /* AlertView.swift */,
 				27ACBAE6213658400058349F /* LoadingView.swift */,
 				2739BB9C2139B0C6007B1D23 /* MessengerInputView.swift */,
+				2739BBA0213A32AD007B1D23 /* ActionButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -380,8 +389,11 @@
 				2739BB8C2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift in Sources */,
 				2739BB8E21374118007B1D23 /* PieChartCollectionViewCell.swift in Sources */,
 				27ACBAE02136462D0058349F /* AlertView.swift in Sources */,
+				2739BBA1213A32AD007B1D23 /* ActionButton.swift in Sources */,
 				2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */,
+				2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */,
 				2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */,
+				2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */,
 				50297A1A21332A93005E5DFB /* SignUpViewController.swift in Sources */,
 				27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */,
 				2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */,

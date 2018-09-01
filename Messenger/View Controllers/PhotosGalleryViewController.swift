@@ -1,0 +1,166 @@
+//
+//  PhotosGalleryViewController.swift
+//  Messenger
+//
+//  Created by Melinda Griswold on 8/31/18.
+//  Copyright © 2018 com.MobilePic. All rights reserved.
+//
+
+import UIKit
+import Photos
+
+class PhotosGalleryViewController: UICollectionViewController {
+    
+    weak var delegate: PhotosGalleryDelegate? = nil
+    var imageToSend: UIImage?
+    let grayOutView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .darkGray
+        view.alpha = 0.0
+        return view
+    }()
+    
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.alpha = 0
+        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 20
+        imageView.backgroundColor = .blue
+        return imageView
+    }()
+    
+    let submitButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .cyan
+        button.setTitle("Send", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        button.layer.cornerRadius = 25
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0.0
+        return button
+    }()
+    
+    private lazy var photos = PhotosGalleryViewController.loadPhotos()
+    private lazy var imageManager = PHCachingImageManager()
+
+    static func loadPhotos() -> PHFetchResult<PHAsset> {
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return PHAsset.fetchAssets(with: allPhotosOptions)
+    }
+    
+    private lazy var thumbnailSize: CGSize = {
+        return CGSize(width: 240, height: 240)
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        grayOutView.frame = self.view.frame
+        
+        self.collectionView?.backgroundColor = .white
+        collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: "Photo Cell")
+        
+        [grayOutView, imageView, submitButton].forEach { view.addSubview($0) }
+        
+        submitButton.addTarget(self, action: #selector(tappedSend), for: .touchUpInside)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let asset = photos.object(at: indexPath.item)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Photo Cell", for: indexPath) as! PhotoCollectionViewCell
+        
+        cell.representedIdentifier = asset.localIdentifier
+        imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+            if cell.representedIdentifier == asset.localIdentifier {
+                cell.imageView.image = image
+            }
+        })
+        
+        return cell
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let asset = photos.object(at: indexPath.item)
+        
+        imageManager.requestImage(for: asset, targetSize: view.frame.size, contentMode: .aspectFill, options: nil, resultHandler:
+            {  image, info in
+                guard let image = image, let info = info else { return }
+                if let isThumbnail = info[PHImageResultIsDegradedKey as NSString] as? Bool, !isThumbnail {
+                    
+        
+                    self.imageView.image = image
+                    self.layoutImage(image: image)
+                   
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.grayOutView.alpha = 0.7
+                        self.imageView.alpha = 1.0
+                        self.submitButton.alpha = 1.0
+                    })
+                    
+                    self.imageToSend = image
+                }
+        })
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let imageWidth = (self.view.frame.width - 6)/4
+        
+        return CGSize(width: imageWidth, height: imageWidth)
+    }
+    
+    func layoutImage(image: UIImage) {
+        imageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.6).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        let ratio = image.size.height/image.size.width
+        print(ratio)
+        
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: ratio).isActive = true
+        
+        
+        submitButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        submitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
+    @objc func tappedSend() {
+        
+        print("HEY")
+        if let image = imageToSend {
+            self.delegate?.selectedPhoto(image: image)
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+}
+
+extension PhotosGalleryViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+}
+
+protocol PhotosGalleryDelegate: class {
+    func selectedPhoto(image: UIImage)
+}

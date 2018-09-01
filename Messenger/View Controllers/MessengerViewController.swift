@@ -11,11 +11,8 @@ import UIKit
 
 class MessengerViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    let smallString = "Hey its me! I thought that it would be fun to write a bit. I'm going to go right to the end. "
-    let lotsOfWords = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way – in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
-    
-    var testString = ""
-    
+
+    let imagePickerController = UIImagePickerController()
     
     let messsages: [(String, Bool)] = {
         var messages = [(String, Bool)]()
@@ -40,14 +37,24 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     //views
     let messengerInputView = MessengerInputView()
     var messengerInputViewBottomConstraint: NSLayoutConstraint?
+
+    let actionButton = ActionButton()
     
+    var actionButtonWidthConstraint: NSLayoutConstraint?
+    
+
     //MARK: View Controller override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        messengerInputView.delegate = self
         messengerInputView.setParentViewWidth(width: self.view.frame.width)
         
+        actionButton.delegate = self
+        
+        
         view.addSubview(messengerInputView)
+        view.addSubview(actionButton)
 
         title = "Connect"
         collectionView?.alwaysBounceVertical = true 
@@ -63,6 +70,37 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        actionButton.plusButton.addTarget(self, action: #selector(tappedActionButton), for: .touchUpInside)
+    }
+    
+    @objc func tappedActionButton() {
+        
+        if actionButton.expanded {
+            self.actionButtonWidthConstraint?.constant = self.view.frame.width - 20
+            self.messengerInputView.startTextViewHideAnimation()
+
+            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
+
+                self.messengerInputView.textViewBackground.alpha = 0.0
+                self.messengerInputView.textView.alpha = 0.0
+                self.view.layoutIfNeeded()
+
+            }, completion: nil)
+        } else {
+            
+            self.actionButtonWidthConstraint?.constant = 40
+            self.messengerInputView.undoTextViewHideAnimation()
+            
+            UIView.animate(withDuration: 0.20, delay: 0, options: .curveEaseIn, animations: {
+
+                self.messengerInputView.textViewBackground.alpha = 1.0
+                self.messengerInputView.textView.alpha = 1.0
+                self.view.layoutIfNeeded()
+
+            }, completion: nil)
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -176,9 +214,64 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     //only need to set the bottom, leading, and trailing constraints
     func setupAutoLayout() {
     
+        actionButtonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
+        
+        actionButton.addConstraints([actionButtonWidthConstraint!])
+        
+        actionButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        actionButton.bottomAnchor.constraint(equalTo: messengerInputView.bottomAnchor, constant: -44).isActive = true
+        actionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        
         messengerInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         messengerInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         messengerInputViewBottomConstraint = NSLayoutConstraint(item: messengerInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(messengerInputViewBottomConstraint!)
     }
+    
+    
+}
+
+extension MessengerViewController: MessengerInputViewDelegate {
+    func lineDidUpdate(offset: CGFloat) {
+        
+        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50 + 10 + offset, right: 0)
+        
+        let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+        collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+    }
+}
+
+extension MessengerViewController: ActionButtonDelegate {
+    func tappedImageButton() {
+            //load the new vc
+        
+        let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.delegate = self
+        self.navigationController?.pushViewController(collectionView, animated: true)
+        
+        
+    }
+    
+    
+}
+
+extension MessengerViewController: PhotosGalleryDelegate {
+    func selectedPhoto(image: UIImage) {
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(imageView)
+        
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: messengerInputView.topAnchor).isActive = true 
+    }
+}
+
+extension MessengerViewController: UIImagePickerControllerDelegate {
+    
+}
+
+extension MessengerViewController: UINavigationControllerDelegate {
+    
 }

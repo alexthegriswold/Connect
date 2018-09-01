@@ -13,7 +13,7 @@ class FormView: UIView {
     weak var forgotPasswordDelegate: ForgotPasswordViewDelegate? = nil
     weak var formViewDelegate: FormViewDelegate? = nil
 
-    var backButton = RoundBackButton()
+    var backButton = RoundBackButton(frame: .zero, width: 31.5)
     
     var title: UILabel = {
         let label = UILabel()
