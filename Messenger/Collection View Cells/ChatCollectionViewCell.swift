@@ -2,7 +2,7 @@
 //  ChatCollectionViewCell.swift
 //  Messenger
 //
-//  Created by Melinda Griswold on 8/30/18.
+//  Created by Alex Griswold on 8/30/18.
 //  Copyright © 2018 com.MobilePic. All rights reserved.
 //
 
@@ -50,21 +50,18 @@ class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate 
         
         if isOpen == true {
             isOpen = false
-            longPressGestureRecognizer?.isEnabled = false
             guard let text = textLabel.text else { return }
             delegate?.didLongPress(text: text)
+        }
+        
+        let now = DispatchTime.now()
+        DispatchQueue.main.asyncAfter(deadline: now + 0.25) {
+            self.isOpen = true
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        longPressGestureRecognizer?.isEnabled = true
-        isOpen = true
+        
     }
-    
-    
-}
-
-protocol MessageCellDelegate: class {
-    func didLongPress(text: String)
 }

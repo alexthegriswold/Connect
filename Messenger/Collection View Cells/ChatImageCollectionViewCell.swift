@@ -36,12 +36,11 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
     }
     
     func autoLayout() {
-        imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
+        imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7).isActive = true
+        imageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
-    
 }
 
 

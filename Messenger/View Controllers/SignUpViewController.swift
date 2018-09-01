@@ -45,6 +45,12 @@ class SignUpViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         guard let formInput = formView.formInputs.first else { return }
         formInput.textField.becomeFirstResponder()
+        
+        for formInput in formView.formInputs {
+            formInput.textField.text?.removeAll()
+        }
+        
+        formView.setSubmitButton(to: false)
     }
     
     //hides the status bar from the app

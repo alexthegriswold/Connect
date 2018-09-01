@@ -12,14 +12,9 @@ import UIKit
 class MessengerViewController: UICollectionViewController {
     
     let authenicator = UserAuthenticator()
+    let textSimulator = TextSimulator()
     
-    //data source
-    var messsages: [(String, Bool)] = {
-        var messages = [(String, Bool)]()
-        return messages
-    }()
-    
-    var images = [UIImage]()
+    var messages = [Message]()
     
     //views
     let messengerInputView = MessengerInputView()
@@ -48,6 +43,8 @@ class MessengerViewController: UICollectionViewController {
         messengerInputView.setParentViewWidth(width: self.view.frame.width)
         
         actionButton.delegate = self
+        
+        textSimulator.delegate = self
         
         [messengerInputView, actionButton].forEach { view.addSubview($0) }
 
@@ -93,8 +90,8 @@ class MessengerViewController: UICollectionViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if messsages.count > 0 {
-            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+        if messages.count > 0 {
+            let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
         }
     }
@@ -102,50 +99,52 @@ class MessengerViewController: UICollectionViewController {
     //MARK: Collection View
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         messengerInputView.textView.endEditing(true)
-        if messsages.count > 0 {
-            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+        if messages.count > 0 {
+            let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
         }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return messages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let message = messages[indexPath.item]
         
-        /*
         let widthOfCell = view.frame.width * 0.7
         let size = CGSize(width: widthOfCell, height: 0)
         
         let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
         
-        let estimatedFrame = NSString(string: messsages[indexPath.row].0).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        let text = message.text ?? ""
+        
+        let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         
         let width = (estimatedFrame.size.width) + 32
         let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
         
-        if messsages[indexPath.row].1 {
+        
+        if message.type == .sending {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatCell", for: indexPath) as! ChatCollectionViewCell
-            cell.textLabel.text = messsages[indexPath.row].0
+            cell.textLabel.text = text
             cell.background.frame = CGRect(x: view.frame.width - width - 10, y: 0, width: width, height: height)
             cell.textLabel.frame = CGRect(x: view.frame.width - width + 7, y: 0, width: estimatedFrame.width, height: height)
             cell.delegate = self
             return cell
-        } else {
+        } else if message.type == .receiving {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SenderCell", for: indexPath) as! SenderChatCell
-            cell.textLabel.text = messsages[indexPath.row].0
+            cell.textLabel.text = text
             cell.background.frame = CGRect(x: 10, y: 0, width: width, height: height)
             cell.textLabel.frame = CGRect(x: 26, y: 0, width: estimatedFrame.width, height: height)
-          
+            cell.delegate = self
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ChatImageCollectionViewCell
+            cell.imageView.image = message.image
             return cell
         }
- */
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ChatImageCollectionViewCell
-        cell.imageView.image = images[indexPath.item]
-        return cell
     }
     
     //MARK: Helper functions
@@ -155,6 +154,13 @@ class MessengerViewController: UICollectionViewController {
         collectionView?.register(ChatCollectionViewCell.self, forCellWithReuseIdentifier: "ChatCell")
         collectionView?.register(SenderChatCell.self, forCellWithReuseIdentifier: "SenderCell")
         collectionView?.register(ChatImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCell")
+    }
+    
+    func addToMessages(message: Message) {
+        messages.append(message)
+        self.collectionView?.insertItems(at: [IndexPath(row: self.messages.count - 1, section: 0)])
+
+        self.textSimulator.giveResponse(to: message)
     }
     
     //MARK: Action Listeners
@@ -188,6 +194,7 @@ class MessengerViewController: UICollectionViewController {
     
     @objc func pushChartsViewController() {
         let viewController = AnalyticsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        self.view.endEditing(true)
         navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -214,8 +221,8 @@ class MessengerViewController: UICollectionViewController {
                 
             }, completion: { (completed) in
                 
-                if isKeyboardShowing && !self.messsages.isEmpty  {
-                    let indexPath = IndexPath(item: self.messsages.count - 1, section: 0)
+                if isKeyboardShowing && !self.messages.isEmpty  {
+                    let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
                     self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
                 }
             })
@@ -261,24 +268,24 @@ extension MessengerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        
-        let width = self.view.frame.width * 0.7
-        let image = images[indexPath.item]
-        let ratio = image.size.height/image.size.width
-        return CGSize(width: width, height: width * ratio)
-        
-        /*
-        let widthOfCell = view.frame.width * 0.7
-        let size = CGSize(width: widthOfCell, height: 0)
-        
-        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
-        
-        let estimatedFrame = NSString(string: messsages[indexPath.row].0).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        
-        let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
-        
-        return CGSize(width: view.frame.width, height: height)
- */
+        let message = messages[indexPath.row]
+        if message.type == .image {
+            guard let image = message.image else { fatalError() }
+            let width = self.view.frame.width * 0.7
+            let ratio = image.size.height/image.size.width
+            return CGSize(width: self.view.frame.width, height: width * ratio)
+        } else {
+            let widthOfCell = view.frame.width * 0.7
+            let size = CGSize(width: widthOfCell, height: 0)
+            
+            let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
+            let text = message.text ?? ""
+            let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
+            
+            return CGSize(width: view.frame.width, height: height)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -296,12 +303,11 @@ extension MessengerViewController: MessengerInputViewDelegate {
     func didHitSend(message: String) {
         if message.count == 0 { return }
         
-        let newMessage = (message, true)
-        messsages.append(newMessage)
-        collectionView?.insertItems(at: [IndexPath(row: messsages.count - 1, section: 0)])
+        let newMessage = Message(type: .sending, image: nil, text: message)
+        addToMessages(message: newMessage)
         
-        if messsages.count > 0 {
-            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+        if messages.count > 0 {
+            let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
 
@@ -322,28 +328,40 @@ extension MessengerViewController: ActionButtonDelegate {
 
 extension MessengerViewController: PhotosGalleryDelegate {
     func selectedPhoto(image: UIImage) {
-        
-        images.append(image)
-        collectionView?.insertItems(at: [IndexPath(row: images.count - 1, section: 0)])
-        if images.count > 0 {
-            let indexPath = IndexPath(item: images.count - 1, section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
-        }
+    
+        let newMessage = Message(type: .image, image: image, text: nil)
+        addToMessages(message: newMessage)
     }
 }
 
 extension MessengerViewController: MessageCellDelegate {
     func didLongPress(text: String) {
-        print(text)
         
-//        let view = UIView()
-//        view.backgroundColor = .black
-//        view.alpha = 0.6
-//        let windowsCount = UIApplication.shared.windows.cou
-//        if let windows = UIApplication.shared.windows {
-//            view.frame = window.frame
-//            window.addSubview(view)
-//        }
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let action = UIAlertAction(title: "Copy", style: .default) { (action) in
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = text
+            }
+        alertController.addAction(action)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension MessengerViewController: TextSimulatorDelegate {
+    func didRecieveText(message: String) {
+        let newMessage = Message(type: .receiving, image: nil, text: message)
+        messages.append(newMessage)
+        collectionView?.insertItems(at: [IndexPath(row: messages.count - 1, section: 0)])
+        
+        if messages.count > 0 {
+            let indexPath = IndexPath(item: messages.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
+        
     }
 }
 

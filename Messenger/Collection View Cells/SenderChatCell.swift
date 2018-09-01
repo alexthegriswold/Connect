@@ -8,7 +8,9 @@
 
 import UIKit
 
-class SenderChatCell: UICollectionViewCell {
+class SenderChatCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+    
+    weak var delegate: MessageCellDelegate? = nil
     
     let textLabel: UILabel = {
         let label = UILabel()
@@ -29,11 +31,14 @@ class SenderChatCell: UICollectionViewCell {
         return view
     }()
     
+    var longPressGestureRecognizer: UILongPressGestureRecognizer?
+    var isOpen = true
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLongPress))
-        background.addGestureRecognizer(gestureRecognizer)
+        longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        background.addGestureRecognizer(longPressGestureRecognizer!)
         [background, textLabel].forEach { addSubview($0) }
     }
     
@@ -42,6 +47,26 @@ class SenderChatCell: UICollectionViewCell {
     }
     
     @objc func didLongPress() {
-        print("copying text")
+        
+        if isOpen == true {
+            isOpen = false
+            guard let text = textLabel.text else { return }
+            delegate?.didLongPress(text: text)
+        }
+        
+        let now = DispatchTime.now()
+        DispatchQueue.main.asyncAfter(deadline: now + 0.25) {
+            self.isOpen = true
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
     }
 }
+
+protocol MessageCellDelegate: class {
+    func didLongPress(text: String)
+}
+
