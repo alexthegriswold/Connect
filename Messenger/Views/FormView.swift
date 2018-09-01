@@ -15,6 +15,8 @@ class FormView: UIView {
 
     var backButton = RoundBackButton(frame: .zero, width: 31.5)
     
+    
+    
     var title: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
@@ -113,7 +115,7 @@ class FormView: UIView {
         
         forgotPassword.widthAnchor.constraint(equalToConstant: 200).isActive = true
         forgotPassword.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        forgotPassword.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 15).isActive = true
+        forgotPassword.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 10).isActive = true
         forgotPassword.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         forgotPassword.addTarget(self, action: #selector(tappedForgotPassword), for: .touchUpInside)
@@ -132,23 +134,6 @@ class FormView: UIView {
     func checkIfTextFieldsHaveText() {
         for formInput in formInputs {
             if formInput.textField.text?.count == 0 {
-                setSubmitButton(to: false)
-                return
-            }
-        }
-        
-        if type == .forgotPassword {
-            checkIfAllTextFieldsAreEqual()
-        } else {
-            setSubmitButton(to: true)
-        }
-    }
-    
-    func checkIfAllTextFieldsAreEqual() {
-        let firstTextFieldCount = formInputs.first?.textField.text?.count
-        
-        for formInput in formInputs {
-            if formInput.textField.text?.count != firstTextFieldCount {
                 setSubmitButton(to: false)
                 return
             }
@@ -186,13 +171,13 @@ class FormView: UIView {
             formInput.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
             
             let yAnchor = index == 0 ? title.bottomAnchor : formInputs[index - 1].bottomAnchor
-            formInput.topAnchor.constraint(equalTo: yAnchor, constant: 30).isActive = true
+            formInput.topAnchor.constraint(equalTo: yAnchor, constant: 20).isActive = true
         }
         
         guard let lastFormInput = formInputs.last else { return }
         submitButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        submitButton.topAnchor.constraint(equalTo: lastFormInput.bottomAnchor, constant: 30).isActive = true
+        submitButton.topAnchor.constraint(equalTo: lastFormInput.bottomAnchor, constant: 20).isActive = true
         submitButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
     
@@ -209,7 +194,15 @@ class FormView: UIView {
     
     @objc func tappedSubmit() {
         if submitButton.isEnabled {
-            formViewDelegate?.didTapSubmit()
+            
+            var formEntries = [String]()
+            
+            for formInput in formInputs {
+            
+                guard let textInput = formInput.textField.text else { return }
+                formEntries.append(textInput)
+            }
+            formViewDelegate?.didTapSubmit(formEntries: formEntries)
         }
         
     }
@@ -221,7 +214,7 @@ protocol ForgotPasswordViewDelegate: class {
 
 protocol FormViewDelegate: class {
     func didTapBack()
-    func didTapSubmit()
+    func didTapSubmit(formEntries: [String])
 }
 
 extension FormView: FormInputItemDelegate {

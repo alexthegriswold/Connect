@@ -10,6 +10,8 @@ import UIKit
 
 class ForgotPasswordViewController: UIViewController {
     
+    let authenticator = UserAuthenticator()
+    
     //MARK: Views
     let formView: FormView = {
         let view = FormView(frame: .zero, type: .forgotPassword)
@@ -50,13 +52,26 @@ extension ForgotPasswordViewController: FormViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func didTapSubmit() {
+    func didTapSubmit(formEntries: [String]) {
         self.view.endEditing(true)
         self.grayOutView.alpha = 0.5
-        let loadingViewController = LoadingViewController()
-        loadingViewController.delegate = self
-        loadingViewController.modalPresentationStyle = .overCurrentContext
-        self.present(loadingViewController, animated: false, completion: nil)
+        
+        let username = formEntries[0].lowercased()
+        let password = formEntries[1]
+        
+        let (success, response) = authenticator.resetPassword(for: username, with: password)
+        let alertString = authenticator.createResetPasswordStringResponse(for: response)
+        let title = success ? "Awesome!" : "Whoops!"
+        
+        self.view.endEditing(true)
+        self.grayOutView.alpha = 0.5
+        
+        
+        let viewModel = AlertViewModel(title: title, subtitle: alertString, buttonTitle: "Ok")
+        let viewController = AlertViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.delegate = self
+        self.present(viewController, animated: true, completion: nil)
     }
 }
 
@@ -69,7 +84,7 @@ extension ForgotPasswordViewController: AlertViewControllerDelegate {
     }
     
     func alertDidDismiss() {
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
     }
 }
 

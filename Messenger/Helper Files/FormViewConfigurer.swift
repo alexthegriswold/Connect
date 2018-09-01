@@ -15,7 +15,7 @@ class FormViewConfigurer {
         case .login, .signup:
             return [("Phone number or email", .insecure) , ("Password", .secure)]
         case .forgotPassword:
-            return [("New password", .secure), ("Confirm new password", .secure)]
+            return [("Phone number or email", .insecure), ("New password", .secure)]
         }
     }
     

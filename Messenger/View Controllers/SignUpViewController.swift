@@ -10,6 +10,8 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
+    let authenticator = UserAuthenticator()
+    
     //views
     let formView: FormView = {
         let view = FormView(frame: .zero, type: .signup)
@@ -67,13 +69,27 @@ extension SignUpViewController: FormViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func didTapSubmit() {
-        self.view.endEditing(true)
-        self.grayOutView.alpha = 0.5
-        let loadingViewController = LoadingViewController()
-        loadingViewController.delegate = self
-        loadingViewController.modalPresentationStyle = .overCurrentContext
-        self.present(loadingViewController, animated: false, completion: nil)
+    func didTapSubmit(formEntries: [String]) {
+        let username = formEntries[0].lowercased()
+        let password = formEntries[1]
+        
+        let (success, response) = authenticator.createUser(username: username, password: password)
+        
+        if success {
+            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            let navigationController = UINavigationController(rootViewController: messengerViewController)
+            self.present(navigationController, animated: true, completion: nil)
+        } else {
+            self.view.endEditing(true)
+            self.grayOutView.alpha = 0.5
+            
+            let alertMessage = authenticator.createSignUpStringResponse(for: response)
+            let viewModel = AlertViewModel(title: "Whoops!", subtitle: alertMessage, buttonTitle: "Ok")
+            let viewController = AlertViewController(viewModel: viewModel)
+            viewController.modalPresentationStyle = .overCurrentContext
+            viewController.delegate = self
+            self.present(viewController, animated: true, completion: nil)
+        }
     }
 }
 

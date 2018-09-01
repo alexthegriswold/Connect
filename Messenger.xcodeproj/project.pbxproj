@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270A26C8213AB54A0096C24B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26C7213AB54A0096C24B /* Message.swift */; };
+		270A26CA213AB5B70096C24B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26C9213AB5B70096C24B /* User.swift */; };
+		270A26CC213AB7130096C24B /* UserAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26CB213AB7130096C24B /* UserAuthenticator.swift */; };
+		270A26CE213ABB220096C24B /* UserTestDataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */; };
 		2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */; };
 		2739BB86213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */; };
 		2739BB88213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */; };
@@ -47,6 +51,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		270A26C7213AB54A0096C24B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		270A26C9213AB5B70096C24B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		270A26CB213AB7130096C24B /* UserAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticator.swift; sourceTree = "<group>"; };
+		270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTestDataGenerator.swift; sourceTree = "<group>"; };
 		2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCollectionViewController.swift; sourceTree = "<group>"; };
 		2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -205,6 +213,8 @@
 		50297A122131F100005E5DFB /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				270A26C7213AB54A0096C24B /* Message.swift */,
+				270A26C9213AB5B70096C24B /* User.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -213,6 +223,8 @@
 			isa = PBXGroup;
 			children = (
 				27A622452134A10A007CE1CA /* FormViewConfigurer.swift */,
+				270A26CB213AB7130096C24B /* UserAuthenticator.swift */,
+				270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */,
 				2739BB9221378353007B1D23 /* AnalyticsChartType.swift */,
 			);
 			path = "Helper Files";
@@ -384,6 +396,8 @@
 				50297A0D2131F0B1005E5DFB /* WelcomeView.swift in Sources */,
 				27ACBAE521364F520058349F /* AlertViewModel.swift in Sources */,
 				27ACBADA2135D89F0058349F /* SignUpAnimationController.swift in Sources */,
+				270A26CC213AB7130096C24B /* UserAuthenticator.swift in Sources */,
+				270A26C8213AB54A0096C24B /* Message.swift in Sources */,
 				27ACBAE7213658400058349F /* LoadingView.swift in Sources */,
 				502979FD2131F039005E5DFB /* WelcomeViewController.swift in Sources */,
 				50297A1C21332ABD005E5DFB /* FormView.swift in Sources */,
@@ -401,6 +415,8 @@
 				2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */,
 				2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */,
 				2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */,
+				270A26CA213AB5B70096C24B /* User.swift in Sources */,
+				270A26CE213ABB220096C24B /* UserTestDataGenerator.swift in Sources */,
 				2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */,
 				50297A1A21332A93005E5DFB /* SignUpViewController.swift in Sources */,
 				27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */,

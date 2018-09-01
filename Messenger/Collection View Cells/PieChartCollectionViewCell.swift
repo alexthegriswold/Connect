@@ -94,8 +94,8 @@ class PieChartCollectionViewCell: UICollectionViewCell {
     func setDataCount(_ count: Int, range: UInt32) {
         
         
-        let entry1 = PieChartDataEntry(value: 64, label: "Guys")
-        let entry2 = PieChartDataEntry(value: 36, label: "Girls")
+        let entry1 = PieChartDataEntry(value: 64, label: "Star Wars Fans")
+        let entry2 = PieChartDataEntry(value: 36, label: "Trekkies")
         let entries = [entry1, entry2]
         
         let set = PieChartDataSet(values: entries, label: nil)
@@ -112,7 +112,7 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         
         data.setValueFont(.systemFont(ofSize: 14, weight: .medium))
-        data.setValueTextColor(.white)
+        data.setValueTextColor(.black)
         
         chartView.data = data
         chartView.highlightValues(nil)
