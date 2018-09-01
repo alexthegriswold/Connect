@@ -112,7 +112,7 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         
         data.setValueFont(.systemFont(ofSize: 14, weight: .medium))
-        data.setValueTextColor(.gray)
+        data.setValueTextColor(.white)
         
         chartView.data = data
         chartView.highlightValues(nil)
