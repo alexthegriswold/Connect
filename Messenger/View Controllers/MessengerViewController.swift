@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 class MessengerViewController: UICollectionViewController {
     
@@ -97,14 +98,6 @@ class MessengerViewController: UICollectionViewController {
     }
    
     //MARK: Collection View
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        messengerInputView.textView.endEditing(true)
-        if messages.count > 0 {
-            let indexPath = IndexPath(item: messages.count - 1, section: 0)
-            collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
-        }
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
@@ -140,9 +133,10 @@ class MessengerViewController: UICollectionViewController {
             cell.textLabel.frame = CGRect(x: 26, y: 0, width: estimatedFrame.width, height: height)
             cell.delegate = self
             return cell
-        } else {
+        } else  {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ChatImageCollectionViewCell
             cell.imageView.image = message.image
+            cell.delegate = self
             return cell
         }
     }
@@ -269,7 +263,7 @@ extension MessengerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let message = messages[indexPath.row]
-        if message.type == .image {
+        if message.type == .image || message.type == .video {
             guard let image = message.image else { fatalError() }
             let width = self.view.frame.width * 0.7
             let ratio = image.size.height/image.size.width
@@ -297,7 +291,6 @@ extension MessengerViewController: MessengerInputViewDelegate {
     func lineDidUpdate(offset: CGFloat) {
         
         
-       
     }
     
     func didHitSend(message: String) {
@@ -317,20 +310,38 @@ extension MessengerViewController: MessengerInputViewDelegate {
 
 extension MessengerViewController: ActionButtonDelegate {
     func tappedImageButton() {
-            //load the new vc
-        
-        let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout())
+     
+        let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout(), isPhotoSelector: true)
         collectionView.delegate = self
         self.view.endEditing(true)
         self.navigationController?.pushViewController(collectionView, animated: true)
     }
+    
+    func tappedVideoButton() {
+        let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout(), isPhotoSelector: false)
+        collectionView.delegate = self
+        self.view.endEditing(true)
+        self.navigationController?.pushViewController(collectionView, animated: true)
+    }
+    
+    func tappedSpecialButton() {
+        
+    }
 }
 
 extension MessengerViewController: PhotosGalleryDelegate {
+
     func selectedPhoto(image: UIImage) {
     
         let newMessage = Message(type: .image, image: image, text: nil)
         addToMessages(message: newMessage)
+    }
+    
+    func selectedVideo(video: AVAsset, image: UIImage) {
+        let newMessage = Message(type: .video, image: image, text: nil, video: video)
+        addToMessages(message: newMessage)
+        //let videoVC = VideoPlayerViewController(video: video)
+        //present(videoVC, animated: true, completion: nil)
     }
 }
 
@@ -363,5 +374,20 @@ extension MessengerViewController: TextSimulatorDelegate {
         }
         
     }
+}
+
+extension MessengerViewController: PhotoChatCellDelegate {
+    func didTapCell(cell: ChatImageCollectionViewCell) {
+        
+        guard let indexPath = collectionView?.indexPath(for: cell) else { return }
+        if messages[indexPath.item].type == .video {
+            guard let video = messages[indexPath.item].video else { return }
+            let videoViewController = VideoPlayerViewController(video: video)
+            videoViewController.modalPresentationStyle = .currentContext
+            self.present(videoViewController, animated: true, completion: nil)
+        }
+    }
+    
+    
 }
 

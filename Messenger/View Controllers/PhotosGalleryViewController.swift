@@ -11,6 +11,8 @@ import Photos
 
 class PhotosGalleryViewController: UICollectionViewController {
     
+    
+    var videoAsset: AVAsset? = nil
     weak var delegate: PhotosGalleryDelegate? = nil
     var imageToSend: UIImage?
     let grayOutView: UIView = {
@@ -44,18 +46,38 @@ class PhotosGalleryViewController: UICollectionViewController {
         return button
     }()
     
-    private lazy var photos = PhotosGalleryViewController.loadPhotos()
+    var photos: PHFetchResult<PHAsset>
     private lazy var imageManager = PHCachingImageManager()
 
-    static func loadPhotos() -> PHFetchResult<PHAsset> {
+    static func loadPhotos(isPhotoSelector: Bool) -> PHFetchResult<PHAsset> {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        return PHAsset.fetchAssets(with: allPhotosOptions)
+        if isPhotoSelector {
+            return PHAsset.fetchAssets(with: allPhotosOptions)
+        } else {
+            return PHAsset.fetchAssets(with: .video, options: allPhotosOptions)
+        }
     }
     
     private lazy var thumbnailSize: CGSize = {
         return CGSize(width: 240, height: 240)
     }()
+    
+    let isPhotoSelector: Bool
+    
+    init(collectionViewLayout layout: UICollectionViewLayout, isPhotoSelector: Bool) {
+        
+        self.isPhotoSelector = isPhotoSelector
+        
+        photos = PhotosGalleryViewController.loadPhotos(isPhotoSelector: isPhotoSelector)
+        
+        super.init(collectionViewLayout: layout)
+        self.title = isPhotoSelector ? "Photos" : "Videos"
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +114,15 @@ class PhotosGalleryViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let asset = photos.object(at: indexPath.item)
+        
+   
+        if !isPhotoSelector {
+            imageManager.requestAVAsset(forVideo: asset, options: nil) { (asset, audioMix, info) in
+                guard let safeAsset = asset else { return }
+                self.videoAsset = safeAsset
+            }
+        }
+        
         
         imageManager.requestImage(for: asset, targetSize: view.frame.size, contentMode: .aspectFill, options: nil, resultHandler:
             {  image, info in
@@ -141,13 +172,19 @@ class PhotosGalleryViewController: UICollectionViewController {
     
     @objc func tappedSend() {
         
-        print("HEY")
-        if let image = imageToSend {
-            self.delegate?.selectedPhoto(image: image)
-            self.navigationController?.popViewController(animated: true)
+        
+        if isPhotoSelector {
+            if let image = imageToSend {
+                self.delegate?.selectedPhoto(image: image)
+            }
+        } else {
+            if let image = imageToSend, let videoAsset = videoAsset {
+                self.delegate?.selectedVideo(video: videoAsset, image: image)
+            }
         }
+        
+         self.navigationController?.popViewController(animated: true)
     }
-    
 }
 
 extension PhotosGalleryViewController: UICollectionViewDelegateFlowLayout {
@@ -162,4 +199,5 @@ extension PhotosGalleryViewController: UICollectionViewDelegateFlowLayout {
 
 protocol PhotosGalleryDelegate: class {
     func selectedPhoto(image: UIImage)
+    func selectedVideo(video: AVAsset, image: UIImage)
 }

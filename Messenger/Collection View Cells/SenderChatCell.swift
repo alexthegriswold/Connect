@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SenderChatCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class SenderChatCell: UICollectionViewCell {
     
     weak var delegate: MessageCellDelegate? = nil
     
@@ -60,10 +60,6 @@ class SenderChatCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        
-    }
 }
 
 protocol MessageCellDelegate: class {

@@ -10,6 +10,8 @@ import UIKit
 
 class ChatImageCollectionViewCell: UICollectionViewCell {
     
+    weak var delegate: PhotoChatCellDelegate? = nil
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -20,6 +22,7 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 20
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0).cgColor
+        imageView.isUserInteractionEnabled = true 
         return imageView
     }()
     
@@ -29,6 +32,13 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
     
         [imageView].forEach { addSubview($0) }
         autoLayout()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        imageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func didTap() {
+        delegate?.didTapCell(cell: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,4 +53,7 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
     }
 }
 
+protocol PhotoChatCellDelegate: class {
+    func didTapCell(cell: ChatImageCollectionViewCell)
+}
 

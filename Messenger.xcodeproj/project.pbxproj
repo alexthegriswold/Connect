@@ -13,6 +13,7 @@
 		270A26CE213ABB220096C24B /* UserTestDataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */; };
 		270A26D0213AE2440096C24B /* ChatCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26CF213AE2440096C24B /* ChatCellType.swift */; };
 		270A26D2213AE9250096C24B /* TextSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26D1213AE9250096C24B /* TextSimulator.swift */; };
+		270A26D6213B2A6C0096C24B /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26D5213B2A6C0096C24B /* VideoPlayerViewController.swift */; };
 		2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */; };
 		2739BB86213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */; };
 		2739BB88213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */; };
@@ -59,6 +60,7 @@
 		270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTestDataGenerator.swift; sourceTree = "<group>"; };
 		270A26CF213AE2440096C24B /* ChatCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellType.swift; sourceTree = "<group>"; };
 		270A26D1213AE9250096C24B /* TextSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSimulator.swift; sourceTree = "<group>"; };
+		270A26D5213B2A6C0096C24B /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCollectionViewController.swift; sourceTree = "<group>"; };
 		2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				27ACBAE82136584B0058349F /* LoadingViewController.swift */,
 				2739BB962138A5F8007B1D23 /* MessengerViewController.swift */,
 				2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */,
+				270A26D5213B2A6C0096C24B /* VideoPlayerViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				2739BB972138A5F8007B1D23 /* MessengerViewController.swift in Sources */,
 				27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */,
 				27ACBADC2135FF380058349F /* RoundBackButton.swift in Sources */,
+				270A26D6213B2A6C0096C24B /* VideoPlayerViewController.swift in Sources */,
 				27A622482134AF43007CE1CA /* ForgotPasswordViewController.swift in Sources */,
 				27ACBAE92136584B0058349F /* LoadingViewController.swift in Sources */,
 				2739BB8C2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift in Sources */,

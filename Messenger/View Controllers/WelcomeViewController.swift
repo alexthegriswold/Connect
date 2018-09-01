@@ -36,9 +36,6 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         super.init(nibName: nil, bundle: nil)
         
         welcomeView.delegate = self
-        
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
