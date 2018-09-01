@@ -55,21 +55,7 @@ class LoginViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    /*
-    //MARK: Helper functions
-    func setupNavBar() {
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "  Back", style: .plain, target: nil, action: nil)
-        
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)]
-        
-        //remove line
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-    }
- */
+
 }
 
 extension LoginViewController: ForgotPasswordViewDelegate {
@@ -84,12 +70,20 @@ extension LoginViewController: FormViewDelegate {
     }
     
     func didTapSubmit() {
-        self.view.endEditing(true)
-        self.grayOutView.alpha = 0.5
-        let loadingViewController = LoadingViewController()
-        loadingViewController.delegate = self
-        loadingViewController.modalPresentationStyle = .overCurrentContext
-        self.present(loadingViewController, animated: false, completion: nil)
+        
+        
+        let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let navigationController = UINavigationController(rootViewController: messengerViewController)
+        self.present(navigationController, animated: true, completion: nil)
+
+//        self.view.endEditing(true)
+//        self.grayOutView.alpha = 0.5
+//
+//
+//        let loadingViewController = LoadingViewController()
+//        loadingViewController.delegate = self
+//        loadingViewController.modalPresentationStyle = .overCurrentContext
+//        self.present(loadingViewController, animated: false, completion: nil)
     }
 }
 

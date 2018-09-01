@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ChatCollectionViewCell: UICollectionViewCell {
+class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+    
+    weak var delegate: MessageCellDelegate? = nil
     
     let textLabel: UILabel = {
         let label = UILabel()
@@ -27,13 +29,40 @@ class ChatCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    var longPressGestureRecognizer: UILongPressGestureRecognizer?
+    var isOpen = true
+    
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
+        longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        background.addGestureRecognizer(longPressGestureRecognizer!)
+     
         [background, textLabel].forEach { addSubview($0) }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @objc func didLongPress() {
+        
+        if isOpen == true {
+            isOpen = false
+            longPressGestureRecognizer?.isEnabled = false
+            guard let text = textLabel.text else { return }
+            delegate?.didLongPress(text: text)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        longPressGestureRecognizer?.isEnabled = true
+        isOpen = true
+    }
+}
+
+protocol MessageCellDelegate: class {
+    func didLongPress(text: String)
 }

@@ -65,8 +65,8 @@ class FormView: UIView {
         
         formInputs.forEach {
             addSubview($0)
-            $0.textField.addTarget(self, action: #selector(setNextFormFieldToActive), for: .primaryActionTriggered)
-            $0.textField.addTarget(self, action: #selector(checkIfTextFieldsHaveText), for: .editingChanged)
+            $0.delegate = self
+            $0.resignFirstResponder()
         }
         if type == .login { addForgotPassword() }
         
@@ -129,6 +129,21 @@ class FormView: UIView {
         }
     }
     
+    func checkIfTextFieldsHaveText() {
+        for formInput in formInputs {
+            if formInput.textField.text?.count == 0 {
+                setSubmitButton(to: false)
+                return
+            }
+        }
+        
+        if type == .forgotPassword {
+            checkIfAllTextFieldsAreEqual()
+        } else {
+            setSubmitButton(to: true)
+        }
+    }
+    
     func checkIfAllTextFieldsAreEqual() {
         let firstTextFieldCount = formInputs.first?.textField.text?.count
         
@@ -158,6 +173,8 @@ class FormView: UIView {
         
         //align them if not iPhone x
         backButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 31.5).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 31.5).isActive = true
         
         title.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         title.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -184,38 +201,17 @@ class FormView: UIView {
         forgotPasswordDelegate?.didTapForgotPassword()
     }
     
-    @objc func setNextFormFieldToActive() {
-        for (index, formInput) in formInputs.enumerated() {
-            if !formInput.textField.isEditing { continue }
-            if formInputs.last == formInput {
-                
-            } else {
-                formInputs[index + 1].textField.becomeFirstResponder()
-            }
-        }
-    }
     
-    @objc func checkIfTextFieldsHaveText() {
-        for formInput in formInputs {
-            if formInput.textField.text?.count == 0 {
-                setSubmitButton(to: false)
-                return
-            }
-        }
-        
-        if type == .forgotPassword {
-            checkIfAllTextFieldsAreEqual()
-        } else {
-            setSubmitButton(to: true)
-        }
-    }
-    
+    //MARK: Navigation
     @objc func tappedBack() {
         formViewDelegate?.didTapBack()
     }
     
     @objc func tappedSubmit() {
-        formViewDelegate?.didTapSubmit()
+        if submitButton.isEnabled {
+            formViewDelegate?.didTapSubmit()
+        }
+        
     }
 }
 
@@ -226,5 +222,28 @@ protocol ForgotPasswordViewDelegate: class {
 protocol FormViewDelegate: class {
     func didTapBack()
     func didTapSubmit()
+}
+
+extension FormView: FormInputItemDelegate {
+    func primaryActionTriggered(returnType: UIReturnKeyType) {
+        //set next form item to active
+        for (index, formInput) in formInputs.enumerated() {
+            
+            if formInputs.last == formInput { continue }
+            
+            if returnType == .done {
+                tappedSubmit()
+                return
+            }
+            
+            formInputs[index].textField.resignFirstResponder()
+            formInputs[index + 1].textField.becomeFirstResponder()
+            
+            }
+    }
+
+    func editingChanged() {
+        checkIfTextFieldsHaveText()
+    }
 }
 

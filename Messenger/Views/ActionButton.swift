@@ -12,8 +12,9 @@ class ActionButton: UIView {
     
     weak var delegate: ActionButtonDelegate? = nil
     
-    let plusButton: RoundBackButton = {
+    var plusButton: RoundBackButton = {
         let button = RoundBackButton(frame: .zero, width: 40)
+        button.transform = CGAffineTransform(rotationAngle: -2.35619)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -34,16 +35,15 @@ class ActionButton: UIView {
         return button
     }()
     
-    let plusRotate = CGAffineTransform(rotationAngle: 0.785398)
-    var plusRotateInverted = CGAffineTransform(rotationAngle: 0.785398).inverted()
+    
+    
+    let plusRotate = CGAffineTransform(rotationAngle: -2.35619).inverted()
     
     var expanded = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        plusButton.transform = plusRotate
-        plusRotateInverted = plusRotate.inverted()
         layer.masksToBounds = true
         layer.cornerRadius = 20
         translatesAutoresizingMaskIntoConstraints = false
@@ -58,20 +58,27 @@ class ActionButton: UIView {
     
     @objc func didTap() {
         
-        if expanded {
-            UIView.animate(withDuration: 0.2) {
-                self.plusButton.transform = self.plusRotate
-                self.plusButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                self.imageButton.alpha = 0.0
-            }
-        } else {
-            UIView.animate(withDuration: 0.2) {
-                self.plusButton.transform = self.plusRotateInverted
-                self.plusButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        print(plusButton.transform == .identity)
+        
+        if expanded == false {
+            UIView.animate(withDuration: 0.20) {
+                //going out
+                
+                let rotate = CGAffineTransform(rotationAngle: 0.0)
+                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 0.7, y: 0.7))
+                self.plusButton.transform = scaleWithRotate
                 self.imageButton.alpha = 1.0
             }
+        } else {
+            UIView.animate(withDuration: 0.20) {
+                //coming in
+                let rotate = CGAffineTransform(rotationAngle: -2.35619)
+                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 1.0, y: 1.0))
+                self.plusButton.transform = scaleWithRotate
+                self.imageButton.alpha = 0.0
+            }
         }
-        
+      
         expanded = !expanded
     }
     

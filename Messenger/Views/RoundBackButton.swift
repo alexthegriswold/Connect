@@ -29,9 +29,7 @@ class RoundBackButton: UIButton {
         
         super.init(frame: frame)
 
-        //self.translatesAutoresizingMaskIntoConstraints = false
-       // self.heightAnchor.constraint(equalToConstant: width).isActive = true
-        //self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,8 +78,5 @@ class RoundBackButton: UIButton {
         fillLayer.path = path.cgPath;
         fillLayer.fillColor = UIColor.white.cgColor
         self.layer.addSublayer(fillLayer)
-        
-        
-        
     }
 }

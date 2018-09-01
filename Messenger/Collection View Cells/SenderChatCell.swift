@@ -32,10 +32,16 @@ class SenderChatCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLongPress))
+        background.addGestureRecognizer(gestureRecognizer)
         [background, textLabel].forEach { addSubview($0) }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didLongPress() {
+        print("copying text")
     }
 }

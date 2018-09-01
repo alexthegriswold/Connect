@@ -11,29 +11,11 @@ import UIKit
 
 class MessengerViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-
-    let imagePickerController = UIImagePickerController()
-    
-    let messsages: [(String, Bool)] = {
+    var messsages: [(String, Bool)] = {
         var messages = [(String, Bool)]()
-        messages.append(("Hey!", true))
-        messages.append(("Hey! Whats up?", false))
-        messages.append(("I really really need you.", true))
-        messages.append(("What! Why?", false))
-        messages.append(("I accidentally dropped the plate.", true))
-        messages.append(("The one that my mom likes so much.", true))
-        messages.append(("lol really?", false))
-        messages.append(("I'm serious! This is a big problem.", true))
-        messages.append(("ya ok", false))
-        messages.append(("It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way – in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.", true))
-        messages.append(("Are you quoting a tale of two cities?", false))
-        messages.append(("yes. I'm going to do it until you come over.", true))
-        messages.append(("It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way – in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.", true))
-        messages.append(("Fine. I'll come over.", false))
         return messages
     }()
     
-   
     //views
     let messengerInputView = MessengerInputView()
     var messengerInputViewBottomConstraint: NSLayoutConstraint?
@@ -72,6 +54,13 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         actionButton.plusButton.addTarget(self, action: #selector(tappedActionButton), for: .touchUpInside)
+        
+  
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.messengerInputView.textView.becomeFirstResponder()
     }
     
     @objc func tappedActionButton() {
@@ -106,15 +95,19 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let indexPath = IndexPath(item: messsages.count - 1, section: 0)
-        collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        if messsages.count > 0 {
+            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        }
     }
    
     //MARK: Collection View
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         messengerInputView.textView.endEditing(true)
-        let indexPath = IndexPath(item: messsages.count - 1, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        if messsages.count > 0 {
+            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -138,15 +131,21 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
             cell.textLabel.text = messsages[indexPath.row].0
             cell.background.frame = CGRect(x: view.frame.width - width - 10, y: 0, width: width, height: height)
             cell.textLabel.frame = CGRect(x: view.frame.width - width + 7, y: 0, width: estimatedFrame.width, height: height)
+            cell.delegate = self
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SenderCell", for: indexPath) as! SenderChatCell
             cell.textLabel.text = messsages[indexPath.row].0
             cell.background.frame = CGRect(x: 10, y: 0, width: width, height: height)
             cell.textLabel.frame = CGRect(x: 26, y: 0, width: estimatedFrame.width, height: height)
-            
+          
             return cell
         }
+    }
+    
+    //MARK: Submit Text
+    @objc func submitText() {
+        print("submit")
     }
     
     //MARK: CollectionView Size
@@ -190,7 +189,7 @@ class MessengerViewController: UICollectionViewController, UICollectionViewDeleg
                 
             }, completion: { (completed) in
                 
-                if isKeyboardShowing {
+                if isKeyboardShowing && !self.messsages.isEmpty  {
                     let indexPath = IndexPath(item: self.messsages.count - 1, section: 0)
                     self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
                 }
@@ -236,8 +235,22 @@ extension MessengerViewController: MessengerInputViewDelegate {
         
         collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50 + 10 + offset, right: 0)
         
-        let indexPath = IndexPath(item: messsages.count - 1, section: 0)
-        collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        if messsages.count > 0 {
+            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
+        
+    }
+    
+    func didHitSend(message: String) {
+        
+        let newMessage = (message, true)
+        messsages.append(newMessage)
+        collectionView?.reloadData()
+        if messsages.count > 0 {
+            let indexPath = IndexPath(item: messsages.count - 1, section: 0)
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
     }
 }
 
@@ -248,11 +261,7 @@ extension MessengerViewController: ActionButtonDelegate {
         let collectionView = PhotosGalleryViewController(collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.delegate = self
         self.navigationController?.pushViewController(collectionView, animated: true)
-        
-        
     }
-    
-    
 }
 
 extension MessengerViewController: PhotosGalleryDelegate {
@@ -268,10 +277,18 @@ extension MessengerViewController: PhotosGalleryDelegate {
     }
 }
 
-extension MessengerViewController: UIImagePickerControllerDelegate {
-    
+extension MessengerViewController: MessageCellDelegate {
+    func didLongPress(text: String) {
+        print(text)
+        
+//        let view = UIView()
+//        view.backgroundColor = .black
+//        view.alpha = 0.6
+//        let windowsCount = UIApplication.shared.windows.cou
+//        if let windows = UIApplication.shared.windows {
+//            view.frame = window.frame
+//            window.addSubview(view)
+//        }
+    }
 }
 
-extension MessengerViewController: UINavigationControllerDelegate {
-    
-}

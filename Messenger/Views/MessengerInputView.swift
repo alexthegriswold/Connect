@@ -54,7 +54,7 @@ class MessengerInputView: UIView {
         let textView = UITextView()
         textView.backgroundColor = nil
         textView.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)
-        textView.returnKeyType = .done
+        textView.returnKeyType = .send
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         return textView
@@ -203,11 +203,28 @@ class MessengerInputView: UIView {
 
 protocol MessengerInputViewDelegate: class {
     func lineDidUpdate(offset: CGFloat)
+    func didHitSend(message: String)
 }
 
 extension MessengerInputView: UITextViewDelegate {
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text as NSString).rangeOfCharacter(from: CharacterSet.newlines).location == NSNotFound {
+            return true
+        }
+
+        delegate?.didHitSend(message: textView.text)
+        self.textView.text = nil
+        self.changeViewHeights(textViewHeight: baseTextViewHeight, scrollEnabled: false)
+        
+        return false
+    }
+    
+    
     func textViewDidChange(_ textView: UITextView) {
+        
+        let textRange = UITextRange()
+        textRange.end
         
         let allMargins = backgroundViewLeftMargin + backgroundViewRightMargin + textViewLeftMargin + textViewRightMargin
         let textViewHeight = estimateTextViewHeight(width: parentViewWidth - allMargins)

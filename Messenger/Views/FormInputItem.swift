@@ -10,6 +10,8 @@ import UIKit
 
 class FormInputItem: UIView {
     
+    weak var delegate: FormInputItemDelegate? = nil
+    
     let title: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
@@ -41,6 +43,10 @@ class FormInputItem: UIView {
         
         //auto layout
         setupAutoLayout()
+        
+        //add targets
+        textField.addTarget(self, action: #selector(primaryActionTriggered), for: .primaryActionTriggered)
+        textField.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,4 +68,17 @@ class FormInputItem: UIView {
         
         heightAnchor.constraint(equalToConstant: 80).isActive = true 
     }
+    
+    @objc func primaryActionTriggered() {
+        delegate?.primaryActionTriggered(returnType: textField.returnKeyType)
+    }
+   
+    @objc func editingChanged() {
+        delegate?.editingChanged()
+    }
+}
+
+protocol FormInputItemDelegate: class {
+    func primaryActionTriggered(returnType: UIReturnKeyType)
+    func editingChanged()
 }
