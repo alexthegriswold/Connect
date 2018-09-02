@@ -13,6 +13,7 @@ import RealmSwift
 enum AuthenticationResponse {
     case invalidUser, invalidPassword, validUserButInvalidPassword, success
     case userExists
+    case invalidEmailOrPhone
 }
 
 class UserAuthenticator {
@@ -53,6 +54,12 @@ class UserAuthenticator {
     }
     
     func createUser(username: String, password: String) -> (Bool, AuthenticationResponse, User?) {
+        
+        let emailValid = validateEmail(email: username)
+        let phoneNumberValid = validatePhone(phone: username)
+        
+        if !emailValid && !phoneNumberValid { return (false, .invalidEmailOrPhone, nil)}
+        
         let userExists = authenticate(username: username)
         if userExists {
             return (false, .userExists, nil)
@@ -79,6 +86,18 @@ class UserAuthenticator {
         try! realm.write {
             user.signedIn = false
         }
+    }
+    
+    func validateEmail(email: String) -> Bool {
+        let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return pred.evaluate(with: email)
+    }
+    
+    func validatePhone(phone: String) -> Bool {
+        
+        if !(10...11).contains(phone.count) { return false }
+        return Int(phone) == nil ? false : true
     }
     
     func createLoginStringResponse(for response: AuthenticationResponse) -> String {
@@ -109,6 +128,8 @@ class UserAuthenticator {
         switch response {
         case .userExists:
             return "That username exists! Please pick another one."
+        case .invalidEmailOrPhone:
+            return "That won't work! Please use a valid US phone number or email."
         default:
             return ""
         }
