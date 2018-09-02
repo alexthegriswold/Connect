@@ -10,8 +10,7 @@ import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
-    
-    
+    //MARK: Views
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -21,8 +20,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    //MARK: Variables
     var representedIdentifier: String!
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(imageView)
@@ -33,6 +34,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Autolayout
     func autoLayout() {
         imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true

@@ -12,9 +12,7 @@ import AVFoundation
 
 class MessengerViewController: UICollectionViewController {
     
-    let authenicator = UserAuthenticator()
-    let textSimulator = TextSimulator()
-    
+    //data source
     var messages = [Message]()
     
     //views
@@ -25,8 +23,12 @@ class MessengerViewController: UICollectionViewController {
     var messengerInputViewBottomConstraint: NSLayoutConstraint?
     var actionButtonWidthConstraint: NSLayoutConstraint?
     
+    //objects
     let user: User
+    let authenicator = UserAuthenticator()
+    let textSimulator = TextSimulator()
     
+    //override functions
     init(collectionViewLayout layout: UICollectionViewLayout, user: User) {
         self.user = user
         super.init(collectionViewLayout: layout)
@@ -36,21 +38,18 @@ class MessengerViewController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: View Controller override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        messengerInputView.delegate = self
-        messengerInputView.setParentViewWidth(width: self.view.frame.width)
-        
-        actionButton.delegate = self
-        
-        textSimulator.delegate = self
-        
-        [messengerInputView, actionButton].forEach { view.addSubview($0) }
-
         title = "Connect"
         
+        messengerInputView.delegate = self
+        actionButton.delegate = self
+        textSimulator.delegate = self
+        
+        messengerInputView.setParentViewWidth(width: self.view.frame.width)
+        [messengerInputView, actionButton].forEach { view.addSubview($0) }
+
         setupCollectionView()
         setupNavBar()
         setupAutoLayout()
@@ -65,7 +64,6 @@ class MessengerViewController: UICollectionViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        
         if let collectionView = collectionView {
             collectionView.removeConstraints(collectionView.constraints)
             collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +73,6 @@ class MessengerViewController: UICollectionViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
             collectionView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 10, right: 0)
         }
-        
     }
     
     @objc func dismissKeyboard() {
@@ -84,8 +81,6 @@ class MessengerViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        
-        //self.messengerInputView.textView.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -114,10 +109,9 @@ class MessengerViewController: UICollectionViewController {
         let text = message.text ?? ""
         
         let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        
+    
         let width = (estimatedFrame.size.width) + 32
         let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
-        
         
         if message.type == .sending {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatCell", for: indexPath) as! ChatCollectionViewCell
@@ -237,14 +231,28 @@ class MessengerViewController: UICollectionViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(red:0.13, green:0.53, blue:0.90, alpha:1.0)
     }
     
+    func calculateCellHeight(with message: Message) -> CGSize {
+        let widthOfCell = view.frame.width * 0.7
+        let size = CGSize(width: widthOfCell, height: 0)
+        
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
+        let text = message.text ?? ""
+        let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
+        
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
     //MARK: Autolayout
     //we implement the resizing of the height in the view
     //only need to set the bottom, leading, and trailing constraints
     func setupAutoLayout() {
     
+        let actionButtonBottomConstraintConstant = MessengerInputSizeComponents().safeAreaSize + MessengerInputSizeComponents().textViewBottomMargin
         actionButtonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
         actionButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        actionButton.bottomAnchor.constraint(equalTo: messengerInputView.bottomAnchor, constant: -44).isActive = true
+        actionButton.bottomAnchor.constraint(equalTo: messengerInputView.bottomAnchor, constant: -actionButtonBottomConstraintConstant).isActive = true
         actionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         actionButton.addConstraints([actionButtonWidthConstraint!])
         
@@ -263,22 +271,14 @@ extension MessengerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let message = messages[indexPath.row]
+        
         if message.type == .image || message.type == .video {
             guard let image = message.image else { fatalError() }
             let width = self.view.frame.width * 0.7
             let ratio = image.size.height/image.size.width
             return CGSize(width: self.view.frame.width, height: width * ratio)
         } else {
-            let widthOfCell = view.frame.width * 0.7
-            let size = CGSize(width: widthOfCell, height: 0)
-            
-            let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.regular)]
-            let text = message.text ?? ""
-            let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            
-            let height = estimatedFrame.height < 38 ? 38 : estimatedFrame.size.height + 32
-            
-            return CGSize(width: view.frame.width, height: height)
+            return calculateCellHeight(with: message)
         }
     }
     
@@ -288,10 +288,7 @@ extension MessengerViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension MessengerViewController: MessengerInputViewDelegate {
-    func lineDidUpdate(offset: CGFloat) {
-        
-        
-    }
+    func lineDidUpdate(offset: CGFloat) { }
     
     func didHitSend(message: String) {
         if message.count == 0 { return }
@@ -303,7 +300,6 @@ extension MessengerViewController: MessengerInputViewDelegate {
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
-
     }
 }
 
@@ -340,8 +336,6 @@ extension MessengerViewController: PhotosGalleryDelegate {
     func selectedVideo(video: AVAsset, image: UIImage) {
         let newMessage = Message(type: .video, image: image, text: nil, video: video)
         addToMessages(message: newMessage)
-        //let videoVC = VideoPlayerViewController(video: video)
-        //present(videoVC, animated: true, completion: nil)
     }
 }
 
@@ -372,7 +366,6 @@ extension MessengerViewController: TextSimulatorDelegate {
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
-        
     }
 }
 
@@ -387,7 +380,5 @@ extension MessengerViewController: PhotoChatCellDelegate {
             self.present(videoViewController, animated: true, completion: nil)
         }
     }
-    
-    
 }
 

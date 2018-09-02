@@ -8,37 +8,12 @@
 
 import UIKit
 
-struct MessengerInputSizeComponents {
-    let safeAreaSize: CGFloat = 34
-    let textViewHeight: CGFloat = 40
-    let textViewBottomMargin: CGFloat = 10
-    let textViewLeftMargin: CGFloat = 20
-    let textViewRightMargin: CGFloat = 20
-    let textViewBackgroundLeftMargin: CGFloat = 60
-    let textViewBackgroundRightMargin: CGFloat = 10
-    let actionButtonWidth: CGFloat = 40
-
-    let textViewBackgroundCornerRadius: CGFloat
-    let inputViewHeight: CGFloat
-    
-    
-  
-    init() {
-        textViewBackgroundCornerRadius = textViewHeight/2
-        inputViewHeight = textViewHeight + textViewBottomMargin
- 
-    }
-}
-
 class MessengerInputView: UIView {
     
+    //delegate
     weak var delegate: MessengerInputViewDelegate? = nil
     
-    let backgroundViewLeftMargin = MessengerInputSizeComponents().textViewBackgroundLeftMargin
-    let backgroundViewRightMargin = MessengerInputSizeComponents().textViewBackgroundRightMargin
-    let textViewLeftMargin = MessengerInputSizeComponents().textViewLeftMargin
-    let textViewRightMargin = MessengerInputSizeComponents().textViewRightMargin
-    
+    //MARK: Views
     let textViewBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -60,8 +35,13 @@ class MessengerInputView: UIView {
         return textView
     }()
     
+    //Constants
+    let backgroundViewLeftMargin = MessengerInputSizeComponents().textViewBackgroundLeftMargin
+    let backgroundViewRightMargin = MessengerInputSizeComponents().textViewBackgroundRightMargin
+    let textViewLeftMargin = MessengerInputSizeComponents().textViewLeftMargin
+    let textViewRightMargin = MessengerInputSizeComponents().textViewRightMargin
     
-    
+    //Constraints
     var textViewHeightConstraint: NSLayoutConstraint?
     var backgroundViewHeightConstraint: NSLayoutConstraint?
     var inputViewHeightConstraint: NSLayoutConstraint?
@@ -69,7 +49,7 @@ class MessengerInputView: UIView {
     var actionButtonWidthConstraint: NSLayoutConstraint?
     var actionButtonTopConstraint: NSLayoutConstraint?
     
-    
+    //Variables
     var textViewHeightMarker: CGFloat = 0
     var textViewLinesCount = 1
     
@@ -81,6 +61,7 @@ class MessengerInputView: UIView {
     var lastTextViewHeightSettings = (CGFloat(0), false)
     var lastTextViewHeightSettingsForAnimation = (CGFloat(0), false)
     
+    //Override view functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -88,62 +69,36 @@ class MessengerInputView: UIView {
         
         self.backgroundColor = .white
         self.translatesAutoresizingMaskIntoConstraints = false
-        
-        textView.text = "a"
-        let height1 = estimateTextViewHeight(width: 1)
-        
-        textView.text = "ab"
-        let height2 = estimateTextViewHeight(width: 1)
-       
-        baseTextViewHeight = height1
-        textViewLineHeight = height2 - height1
-        
-        textView.text = ""
-        
         [textViewBackground, textView].forEach { addSubview($0) }
-        
+        getTextViewLineHeight()
         setupAutoLayout()
-        
-        
-        //actionButton.addTarget(self, action: #selector(tappedActionButton), for: .touchUpInside)
-    }
-    
-    @objc func tappedActionButton() {
-        
-      
-        //self.actionButtonWidthConstraint?.constant = self.parentViewWidth - 20
-        self.changeViewHeights(textViewHeight: baseTextViewHeight, scrollEnabled: false)
-        
-        UIView.animate(withDuration: 0.10, delay: 0, options: .curveEaseIn, animations: {
-            
-            self.layoutIfNeeded()
-        }, completion: { (completed) in
-            
-        })
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Helper functions
     func setParentViewWidth(width: CGFloat) {
         self.parentViewWidth = width
     }
     
-    //so what we need to do when the size increases is change the background, the mainView, and the textView
-    //the textView will get its height from the value
-    //the background view will have a height of the textView plus some points
-    //the view will have a height of the background plus safe area plus 10
+    func getTextViewLineHeight() {
+        textView.text = "a"
+        let height1 = estimateTextViewHeight(width: 1)
+        
+        textView.text = "ab"
+        let height2 = estimateTextViewHeight(width: 1)
+        
+        baseTextViewHeight = height1
+        textViewLineHeight = height2 - height1
+        
+        textView.text = ""
+    }
     
-    //intially
-    //the textView will get its height from the value
-    //the background view will have a height of 40
-    //the view will have a height of the background plus safe area plus 10
-    
+    //MARK: Auto layout
     func setupAutoLayout() {
         
-        let actionButtonWidth = MessengerInputSizeComponents().actionButtonWidth
-    
         textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
     
         backgroundViewHeightConstraint = NSLayoutConstraint(item: textViewBackground, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
@@ -224,9 +179,6 @@ extension MessengerInputView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         
-        let textRange = UITextRange()
-        textRange.end
-        
         let allMargins = backgroundViewLeftMargin + backgroundViewRightMargin + textViewLeftMargin + textViewRightMargin
         let textViewHeight = estimateTextViewHeight(width: parentViewWidth - allMargins)
         
@@ -246,16 +198,6 @@ extension MessengerInputView: UITextViewDelegate {
             textView.isScrollEnabled = false
             changeViewHeights(textViewHeight: textViewHeight, scrollEnabled: false)
         }
-        
-        var offset: CGFloat = 0
-
-        if numberOfLines < 5 {
-            offset = (baseTextViewHeight + (textViewLineHeight * (numberOfLines - 1)) - 40)
-        } else {
-            offset = (baseTextViewHeight + (textViewLineHeight * (numberOfLines - 2)) - 40 + 11)
-        }
-        
-        delegate?.lineDidUpdate(offset: offset)
     }
 }
 

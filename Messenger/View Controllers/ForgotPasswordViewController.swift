@@ -89,9 +89,7 @@ extension ForgotPasswordViewController: AlertViewControllerDelegate {
         }
     }
     
-    func alertDidDismiss() {
-        //navigationController?.popViewController(animated: true)
-    }
+    func alertDidDismiss() { }
 }
 
 extension ForgotPasswordViewController: LoadingViewControllerDelegate {

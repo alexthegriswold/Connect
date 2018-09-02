@@ -1,5 +1,5 @@
 //
-//  PieChartCollectionViewCell.swift
+//  HorizontalBarChartCollectionViewCell.swift
 //  Messenger
 //
 //  Created by Melinda Griswold on 8/29/18.
@@ -9,8 +9,9 @@
 import UIKit
 import Charts
 
-class PieChartCollectionViewCell: UICollectionViewCell {
+class HorizontalBarChartCollectionViewCell: UICollectionViewCell {
     
+    //MARK: Views
     private let outerView: UIView = {
         let view = UIView()
         view.clipsToBounds = false
@@ -31,12 +32,31 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let chartView: PieChartView = {
-        let chart = PieChartView()
+    private let chartView: HorizontalBarChartView = {
+        let chart = HorizontalBarChartView()
         chart.chartDescription?.text = nil
         chart.translatesAutoresizingMaskIntoConstraints = false
+        chart.isUserInteractionEnabled = false
+        
+        
+        chart.scaleXEnabled = false
+        chart.scaleYEnabled = false
+        
+        chart.drawValueAboveBarEnabled = true 
+        
+        chart.leftAxis.enabled = false
+        chart.rightAxis.enabled = false
         chart.legend.enabled = false
-        chart.isUserInteractionEnabled = false 
+        
+        let xAxis = chart.xAxis
+        xAxis.axisLineColor = .lightGray
+        xAxis.axisLineWidth = 0
+        xAxis.gridLineWidth = 0
+        xAxis.labelPosition = .bottom
+        xAxis.labelFont = .systemFont(ofSize: 10, weight: UIFont.Weight.regular)
+        xAxis.labelTextColor = .lightGray
+        xAxis.granularity = 1
+        
         return chart
     }()
     
@@ -46,7 +66,7 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.80
         label.textColor = .black
-        label.text = "Pie Chart"
+        label.text = "Horizontal Bar Chart"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,24 +76,21 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .gray
         label.numberOfLines = 0
-        label.text = "The tastiest chart. Great for visualizing how things are split."
+        label.text = "This chart is good for something. Not sure for what though."
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    
     var backgroundViewMultiplier: CGFloat = 0.9
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        
-        chartView.drawHoleEnabled = false
         [outerView, background].forEach { addSubview($0) }
         [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
-        
-        setDataCount(4, range: 100)
+        setDataCount(8, range: 100)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,34 +107,39 @@ class PieChartCollectionViewCell: UICollectionViewCell {
         outerView.frame = background.frame
         outerView.layer.shadowPath = UIBezierPath(rect: outerView.bounds).cgPath
     }
-
-    func setDataCount(_ count: Int, range: UInt32) {
-        
-        
-        let entry1 = PieChartDataEntry(value: 64, label: "Star Wars Fans")
-        let entry2 = PieChartDataEntry(value: 36, label: "Trekkies")
-        let entries = [entry1, entry2]
-        
-        let set = PieChartDataSet(values: entries, label: nil)
-        set.sliceSpace = 3
-        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
-        
-        let data = PieChartData(dataSet: set)
-        
-        let pFormatter = NumberFormatter()
-        pFormatter.numberStyle = .percent
-        pFormatter.maximumFractionDigits = 1
-        pFormatter.multiplier = 1
-        pFormatter.percentSymbol = " %"
-        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        
-        data.setValueFont(.systemFont(ofSize: 14, weight: .medium))
-        data.setValueTextColor(.black)
-        
+    
+    //MARK: Helper functions
+    func setChartData(data: BarChartData) {
         chartView.data = data
-        chartView.highlightValues(nil)
     }
     
+    func setDataCount(_ count: Int, range: UInt32) {
+        let start = 1
+    
+        let yVals = (start..<start + count).map { (i) -> BarChartDataEntry in
+            let mult = range + 1
+            let val = Double(arc4random_uniform(mult))
+            return BarChartDataEntry(x: Double(i), y: val)
+        }
+        
+        let set = BarChartDataSet(values: yVals, label: nil)
+        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
+        set.drawValuesEnabled = true
+        set.drawIconsEnabled = true
+    
+        let data = BarChartData(dataSet: set)
+        data.setValueFont(UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular))
+        data.setValueTextColor(.lightGray)
+        data.barWidth = 0.8
+        
+        let formatter = NumberFormatter()
+        formatter.allowsFloats = false
+        
+        data.setValueFormatter(DefaultValueFormatter(formatter: formatter))
+        chartView.data = data
+    }
+    
+    //MARK: Auto layout
     private func setupAutoLayout() {
         
         background.widthAnchor.constraint(equalTo: widthAnchor, multiplier: backgroundViewMultiplier).isActive = true

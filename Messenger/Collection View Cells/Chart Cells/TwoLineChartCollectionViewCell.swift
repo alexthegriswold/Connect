@@ -11,6 +11,7 @@ import Charts
 
 class TwoLineChartCollectionViewCell: UICollectionViewCell {
     
+    //MARK: Views
     private let outerView: UIView = {
         let view = UIView()
         view.clipsToBounds = false
@@ -95,6 +96,7 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    //Variables
     var backgroundViewMultiplier: CGFloat = 0.9
     
     let lineChartData: LineChartData = {
@@ -135,6 +137,7 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         return data
     }()
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -157,15 +160,16 @@ class TwoLineChartCollectionViewCell: UICollectionViewCell {
         outerView.layer.shadowPath = UIBezierPath(rect: outerView.bounds).cgPath
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Helper functions
     func setChartData(data: LineChartData) {
         chartView.data = data
     }
     
+    //MARK: Auto layout
     private func setupAutoLayout() {
         
         background.widthAnchor.constraint(equalTo: widthAnchor, multiplier: backgroundViewMultiplier).isActive = true

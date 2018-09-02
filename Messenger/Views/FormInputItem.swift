@@ -10,8 +10,10 @@ import UIKit
 
 class FormInputItem: UIView {
     
+    //Delegate
     weak var delegate: FormInputItemDelegate? = nil
     
+    //MARK: Views
     let title: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)
@@ -29,13 +31,12 @@ class FormInputItem: UIView {
         textField.leftViewMode = .always
         textField.returnKeyType = .next
         textField.translatesAutoresizingMaskIntoConstraints = false
-        
         return textField
     }()
     
+    //Override functions
     init(frame: CGRect, itemTitle: String) {
         super.init(frame: frame)
-        
         self.title.text = itemTitle
         
         //add subviews
@@ -52,7 +53,6 @@ class FormInputItem: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     //MARK: Auto Layout
     func setupAutoLayout() {

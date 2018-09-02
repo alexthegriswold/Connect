@@ -14,6 +14,7 @@
 		270A26D0213AE2440096C24B /* ChatCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26CF213AE2440096C24B /* ChatCellType.swift */; };
 		270A26D2213AE9250096C24B /* TextSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26D1213AE9250096C24B /* TextSimulator.swift */; };
 		270A26D6213B2A6C0096C24B /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26D5213B2A6C0096C24B /* VideoPlayerViewController.swift */; };
+		270A26DC213B66F50096C24B /* MessengerViewSizeProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A26DB213B66F50096C24B /* MessengerViewSizeProperties.swift */; };
 		2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */; };
 		2739BB86213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */; };
 		2739BB88213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */; };
@@ -61,6 +62,7 @@
 		270A26CF213AE2440096C24B /* ChatCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellType.swift; sourceTree = "<group>"; };
 		270A26D1213AE9250096C24B /* TextSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSimulator.swift; sourceTree = "<group>"; };
 		270A26D5213B2A6C0096C24B /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
+		270A26DB213B66F50096C24B /* MessengerViewSizeProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerViewSizeProperties.swift; sourceTree = "<group>"; };
 		2739BB82213733F6007B1D23 /* AnalyticsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsCollectionViewController.swift; sourceTree = "<group>"; };
 		2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BB87213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineChartCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -116,7 +118,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2739BB842137409E007B1D23 /* Collection View Cells */ = {
+		270A26D9213B64550096C24B /* Chart Cells */ = {
 			isa = PBXGroup;
 			children = (
 				2739BB85213740C6007B1D23 /* TwoLineChartCollectionViewCell.swift */,
@@ -124,10 +126,26 @@
 				2739BB89213740F7007B1D23 /* VerticalBarChartCollectionViewCell.swift */,
 				2739BB8B2137410C007B1D23 /* HorizontalBarChartCollectionViewCell.swift */,
 				2739BB8D21374118007B1D23 /* PieChartCollectionViewCell.swift */,
+			);
+			path = "Chart Cells";
+			sourceTree = "<group>";
+		};
+		270A26DA213B65520096C24B /* Chat Cells */ = {
+			isa = PBXGroup;
+			children = (
 				2739BB982138A801007B1D23 /* ChatCollectionViewCell.swift */,
 				2739BB9A2138EA87007B1D23 /* SenderChatCell.swift */,
-				2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */,
 				2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */,
+			);
+			path = "Chat Cells";
+			sourceTree = "<group>";
+		};
+		2739BB842137409E007B1D23 /* Collection View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				270A26D9213B64550096C24B /* Chart Cells */,
+				270A26DA213B65520096C24B /* Chat Cells */,
+				2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */,
 			);
 			path = "Collection View Cells";
 			sourceTree = "<group>";
@@ -235,6 +253,7 @@
 				2739BB9221378353007B1D23 /* AnalyticsChartType.swift */,
 				270A26CF213AE2440096C24B /* ChatCellType.swift */,
 				270A26D1213AE9250096C24B /* TextSimulator.swift */,
+				270A26DB213B66F50096C24B /* MessengerViewSizeProperties.swift */,
 			);
 			path = "Helper Files";
 			sourceTree = "<group>";
@@ -407,6 +426,7 @@
 				27ACBADA2135D89F0058349F /* SignUpAnimationController.swift in Sources */,
 				270A26CC213AB7130096C24B /* UserAuthenticator.swift in Sources */,
 				270A26C8213AB54A0096C24B /* Message.swift in Sources */,
+				270A26DC213B66F50096C24B /* MessengerViewSizeProperties.swift in Sources */,
 				27ACBAE7213658400058349F /* LoadingView.swift in Sources */,
 				502979FD2131F039005E5DFB /* WelcomeViewController.swift in Sources */,
 				50297A1C21332ABD005E5DFB /* FormView.swift in Sources */,

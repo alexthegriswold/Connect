@@ -1,5 +1,5 @@
 //
-//  VerticalBarChartCollectionViewCell.swift
+//  SingleLineChartCollectionViewCell.swift
 //  Messenger
 //
 //  Created by Melinda Griswold on 8/29/18.
@@ -9,8 +9,9 @@
 import UIKit
 import Charts
 
-class VerticalBarChartCollectionViewCell: UICollectionViewCell {
+class SingleLineChartCollectionViewCell: UICollectionViewCell {
     
+    //MARK: Views
     private let outerView: UIView = {
         let view = UIView()
         view.clipsToBounds = false
@@ -31,18 +32,45 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let chartView: BarChartView = {
-        let chart = BarChartView()
+    private let chartView: LineChartView = {
+        let chart = LineChartView()
         chart.chartDescription?.text = nil
         chart.translatesAutoresizingMaskIntoConstraints = false
-        
         chart.isUserInteractionEnabled = false
         
-        chart.leftAxis.enabled = false
-        chart.rightAxis.enabled = false
-        chart.legend.enabled = false
+        let grayColor = UIColor(white: 0.90, alpha: 1.0)
+        let labelFont = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular)
+        let labelTextColor = UIColor.gray
         
-        chart.drawValueAboveBarEnabled = true
+        //right axis
+        chart.rightAxis.enabled = false
+        
+        //left axis
+        let leftAxis = chart.leftAxis
+        leftAxis.gridColor = grayColor
+        leftAxis.axisLineColor = grayColor
+        leftAxis.axisMinimum = 0
+        leftAxis.labelFont = labelFont
+        leftAxis.labelTextColor = labelTextColor
+        
+        //x axis
+        let xAxis = chart.xAxis
+        xAxis.gridColor = grayColor
+        xAxis.axisLineColor = grayColor
+        xAxis.labelPosition = .bottom
+        xAxis.labelFont = labelFont
+        xAxis.labelTextColor = labelTextColor
+        
+        let legend = chart.legend
+        legend.horizontalAlignment = .left
+        legend.verticalAlignment = .bottom
+        legend.orientation = .horizontal
+        legend.drawInside = false
+        legend.formSize = 9
+        legend.form = .circle
+        legend.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium)
+        legend.textColor = .gray
+        legend.xEntrySpace = 4
         
         return chart
     }()
@@ -53,7 +81,7 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.80
         label.textColor = .black
-        label.text = "Vertical Bar Chart"
+        label.text = "Single Line Chart"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -63,38 +91,45 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .gray
         label.numberOfLines = 0
-        label.text = "Check out data for each day of the week!"
+        label.text = "The classic stock quote style chart."
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    //MARK: Variables
     var backgroundViewMultiplier: CGFloat = 0.9
     
-    override init(frame: CGRect) {
+    let lineChartData: LineChartData = {
+        var dataEntries = [ChartDataEntry]()
         
-        super.init(frame: frame)
+        for i in 0...10 {
+            dataEntries.append(ChartDataEntry(x: Double(i), y: Double(i)))
+        }
+        
+        let dataSet = LineChartDataSet(values: dataEntries, label: "AAPL")
+        dataSet.drawCircleHoleEnabled = false
+        dataSet.circleRadius = 5
+        
+        dataSet.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
+        dataSet.valueFont = .systemFont(ofSize: 10, weight: UIFont.Weight.regular)
+        dataSet.valueTextColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
+        dataSet.circleColors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
+        
+        let data = LineChartData()
+        
+        data.addDataSet(dataSet)
+        return data
+    }()
     
+    //MARK: View override functions
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        print(chartView.drawValueAboveBarEnabled)
-        
-        let xAxis = chartView.xAxis
-        xAxis.axisLineColor = .lightGray
-        xAxis.axisLineWidth = 0
-        xAxis.gridLineWidth = 0
-        xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 10, weight: UIFont.Weight.regular)
-        xAxis.labelTextColor = .lightGray
-        xAxis.granularity = 1
-
         [outerView, background].forEach { addSubview($0) }
         [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
         
-        setDataCount(4, range: 100)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        setChartData(data: lineChartData)
     }
     
     override func layoutSubviews() {
@@ -108,36 +143,16 @@ class VerticalBarChartCollectionViewCell: UICollectionViewCell {
         outerView.layer.shadowPath = UIBezierPath(rect: outerView.bounds).cgPath
     }
     
-    func setChartData(data: BarChartData) {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: Helper functions
+    func setChartData(data: LineChartData) {
         chartView.data = data
     }
     
-    func setDataCount(_ count: Int, range: UInt32) {
-        let start = 1
-        
-        let yVals = (start..<start + count).map { (i) -> BarChartDataEntry in
-            let mult = range + 1
-            let val = Double(arc4random_uniform(mult))
-            return BarChartDataEntry(x: Double(i), y: val)
-        }
-        
-        let set = BarChartDataSet(values: yVals, label: nil)
-        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
-        set.drawValuesEnabled = true
-        set.drawIconsEnabled = true
-        
-        let data = BarChartData(dataSet: set)
-        data.setValueFont(UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular))
-        data.setValueTextColor(.lightGray)
-        data.barWidth = 0.8
-        
-        let formatter = NumberFormatter()
-        formatter.allowsFloats = false
-        
-        data.setValueFormatter(DefaultValueFormatter(formatter: formatter))
-        chartView.data = data
-    }
-    
+    //MARK: Auto layout
     private func setupAutoLayout() {
         
         background.widthAnchor.constraint(equalTo: widthAnchor, multiplier: backgroundViewMultiplier).isActive = true

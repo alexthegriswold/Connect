@@ -28,7 +28,6 @@ class AlertViewController: UIViewController {
     override func viewDidLoad() {
         
         self.view.addSubview(alertView)
-        
         alertView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
         alertView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.70).isActive = true
         alertView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true

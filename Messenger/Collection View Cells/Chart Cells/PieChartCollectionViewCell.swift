@@ -1,5 +1,5 @@
 //
-//  SingleLineChartCollectionViewCell.swift
+//  PieChartCollectionViewCell.swift
 //  Messenger
 //
 //  Created by Melinda Griswold on 8/29/18.
@@ -9,8 +9,9 @@
 import UIKit
 import Charts
 
-class SingleLineChartCollectionViewCell: UICollectionViewCell {
+class PieChartCollectionViewCell: UICollectionViewCell {
     
+    //MARK: Views
     private let outerView: UIView = {
         let view = UIView()
         view.clipsToBounds = false
@@ -31,68 +32,12 @@ class SingleLineChartCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let lineChartData: LineChartData = {
-        var dataEntries = [ChartDataEntry]()
-        
-        for i in 0...10 {
-            dataEntries.append(ChartDataEntry(x: Double(i), y: Double(i)))
-        }
-        
-        let dataSet = LineChartDataSet(values: dataEntries, label: "AAPL")
-        dataSet.drawCircleHoleEnabled = false
-        dataSet.circleRadius = 5
-   
-        dataSet.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
-        dataSet.valueFont = .systemFont(ofSize: 10, weight: UIFont.Weight.regular)
-        dataSet.valueTextColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
-        dataSet.circleColors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
-        
-        let data = LineChartData()
-        
-        data.addDataSet(dataSet)
-        return data
-    }()
-    
-    private let chartView: LineChartView = {
-        let chart = LineChartView()
+    private let chartView: PieChartView = {
+        let chart = PieChartView()
         chart.chartDescription?.text = nil
         chart.translatesAutoresizingMaskIntoConstraints = false
-        chart.isUserInteractionEnabled = false
-        
-        let grayColor = UIColor(white: 0.90, alpha: 1.0)
-        let labelFont = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.regular)
-        let labelTextColor = UIColor.gray
-        
-        //right axis
-        chart.rightAxis.enabled = false
-        
-        //left axis
-        let leftAxis = chart.leftAxis
-        leftAxis.gridColor = grayColor
-        leftAxis.axisLineColor = grayColor
-        leftAxis.axisMinimum = 0
-        leftAxis.labelFont = labelFont
-        leftAxis.labelTextColor = labelTextColor
-        
-        //x axis
-        let xAxis = chart.xAxis
-        xAxis.gridColor = grayColor
-        xAxis.axisLineColor = grayColor
-        xAxis.labelPosition = .bottom
-        xAxis.labelFont = labelFont
-        xAxis.labelTextColor = labelTextColor
-        
-        let legend = chart.legend
-        legend.horizontalAlignment = .left
-        legend.verticalAlignment = .bottom
-        legend.orientation = .horizontal
-        legend.drawInside = false
-        legend.formSize = 9
-        legend.form = .circle
-        legend.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium)
-        legend.textColor = .gray
-        legend.xEntrySpace = 4
-        
+        chart.legend.enabled = false
+        chart.isUserInteractionEnabled = false 
         return chart
     }()
     
@@ -102,7 +47,7 @@ class SingleLineChartCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.80
         label.textColor = .black
-        label.text = "Single Line Chart"
+        label.text = "Pie Chart"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -112,21 +57,29 @@ class SingleLineChartCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .gray
         label.numberOfLines = 0
-        label.text = "The classic stock quote style chart."
+        label.text = "The tastiest chart. Great for visualizing how things are split."
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    //MARK: Variables
     var backgroundViewMultiplier: CGFloat = 0.9
     
+    //MARK: View override functions
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
+        chartView.drawHoleEnabled = false
         [outerView, background].forEach { addSubview($0) }
         [chartView, subtitleLabel, titleLabel].forEach { background.addSubview($0) }
         setupAutoLayout()
         
-        setChartData(data: lineChartData)
+        setDataCount(4, range: 100)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -139,15 +92,35 @@ class SingleLineChartCollectionViewCell: UICollectionViewCell {
         outerView.frame = background.frame
         outerView.layer.shadowPath = UIBezierPath(rect: outerView.bounds).cgPath
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setChartData(data: LineChartData) {
+
+    //MARK: Helper functions
+    func setDataCount(_ count: Int, range: UInt32) {
+        
+        let entry1 = PieChartDataEntry(value: 64, label: "Star Wars Fans")
+        let entry2 = PieChartDataEntry(value: 36, label: "Trekkies")
+        let entries = [entry1, entry2]
+        
+        let set = PieChartDataSet(values: entries, label: nil)
+        set.sliceSpace = 3
+        set.colors = [UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)]
+        
+        let data = PieChartData(dataSet: set)
+        
+        let pFormatter = NumberFormatter()
+        pFormatter.numberStyle = .percent
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1
+        pFormatter.percentSymbol = " %"
+        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        
+        data.setValueFont(.systemFont(ofSize: 14, weight: .medium))
+        data.setValueTextColor(.black)
+        
         chartView.data = data
+        chartView.highlightValues(nil)
     }
     
+    //MARK: Auto layout
     private func setupAutoLayout() {
         
         background.widthAnchor.constraint(equalTo: widthAnchor, multiplier: backgroundViewMultiplier).isActive = true

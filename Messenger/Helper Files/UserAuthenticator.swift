@@ -41,7 +41,7 @@ class UserAuthenticator {
     }
     
     func resetPassword(for username: String, with password: String) -> (Bool, AuthenticationResponse){
-        if var user = realm.objects(User.self).filter("username = %@", username).first {
+        if let user = realm.objects(User.self).filter("username = %@", username).first {
             
             try! realm.write {
                 user.password = password
@@ -134,7 +134,4 @@ class UserAuthenticator {
             return ""
         }
     }
-    
-    
-    
 }

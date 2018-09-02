@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigationControllerDelegate {
+class WelcomeViewController: UIViewController, WelcomeViewDelegate {
     
     let authenticator = UserAuthenticator()
     
@@ -25,7 +25,6 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
     
     //variables
     var paused: Bool = false
-    
     var statusBarHidden = false
     
     //MARK: Init
@@ -34,7 +33,6 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         avPlayer = AVPlayer(url: url)
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         super.init(nibName: nil, bundle: nil)
-        
         welcomeView.delegate = self
     }
     
@@ -49,9 +47,7 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         [welcomeView].forEach { view.addSubview($0) }
         setupVideoLayer()
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "  Back", style: .plain, target: nil, action: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        
         
         navigationController?.delegate = self
     }
@@ -86,6 +82,10 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         return .slide
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     //Mark: Helper Functions
     func setupVideoLayer() {
         avPlayerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -101,22 +101,22 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: avPlayer.currentItem)
     }
+    
+    func setupNavbar() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "  Back", style: .plain, target: nil, action: nil)
+    }
 
     @objc func playerItemDidReachEnd(notification: Notification) {
         let p: AVPlayerItem = notification.object as! AVPlayerItem
         p.seek(to: kCMTimeZero)
     }
     
-    
-    
     //MARK: WelcomeViewDelegate
     func didTapSignUp() {
-        print("HEY")
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
     
     func didTapLogin() {
-        print("HEY")
         self.navigationController?.pushViewController(LoginViewController(), animated: true)
     }
     
@@ -126,10 +126,9 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate, UINavigation
         paused = false
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
+}
+extension WelcomeViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         

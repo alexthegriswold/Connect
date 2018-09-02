@@ -10,8 +10,10 @@ import UIKit
 
 class SenderChatCell: UICollectionViewCell {
     
+    //delegate
     weak var delegate: MessageCellDelegate? = nil
     
+    //MARK: Views
     let textLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -31,9 +33,11 @@ class SenderChatCell: UICollectionViewCell {
         return view
     }()
     
+    //Variables
     var longPressGestureRecognizer: UILongPressGestureRecognizer?
     var isOpen = true
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,6 +50,7 @@ class SenderChatCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Action listeners
     @objc func didLongPress() {
         
         if isOpen == true {
@@ -59,7 +64,6 @@ class SenderChatCell: UICollectionViewCell {
             self.isOpen = true
         }
     }
-    
 }
 
 protocol MessageCellDelegate: class {

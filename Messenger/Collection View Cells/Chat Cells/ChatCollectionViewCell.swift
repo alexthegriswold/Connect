@@ -8,10 +8,12 @@
 
 import UIKit
 
-class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class ChatCollectionViewCell: UICollectionViewCell {
     
+    //delegate
     weak var delegate: MessageCellDelegate? = nil
     
+    //MARK: Views
     let textLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -29,9 +31,11 @@ class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate 
         return view
     }()
     
+    //MARK: Variables
     var longPressGestureRecognizer: UILongPressGestureRecognizer?
     var isOpen = true
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -46,6 +50,7 @@ class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate 
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Action listeners
     @objc func didLongPress() {
         
         if isOpen == true {
@@ -58,10 +63,5 @@ class ChatCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate 
         DispatchQueue.main.asyncAfter(deadline: now + 0.25) {
             self.isOpen = true
         }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        
     }
 }

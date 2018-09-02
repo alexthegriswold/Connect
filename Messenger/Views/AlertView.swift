@@ -10,6 +10,10 @@ import UIKit
 
 class AlertView: UIView {
     
+    //delegate
+    weak var delegate: AlertViewButtonDelegate? = nil
+    
+    //MARK: Views
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 25, weight: UIFont.Weight.bold)
@@ -39,11 +43,7 @@ class AlertView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    weak var delegate: AlertViewButtonDelegate? = nil
-    
-    //var alertViewModel: AlertViewModel?
-    
+
     init(viewModel: AlertViewModel) {
         
         titleLabel.text = viewModel.title
@@ -66,6 +66,7 @@ class AlertView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Autolayout
     func setupAutoLayout() {
         titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

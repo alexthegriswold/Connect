@@ -32,7 +32,6 @@ class TextSimulator {
         "Yeah, I'm excited too."
     ]
     
-
     func giveResponse(to message: Message) {
         
         let now = DispatchTime.now()

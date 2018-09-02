@@ -10,12 +10,12 @@ import UIKit
 
 class FormView: UIView {
     
+    //MARK: Delegates
     weak var forgotPasswordDelegate: ForgotPasswordViewDelegate? = nil
     weak var formViewDelegate: FormViewDelegate? = nil
 
+    //MARK: Views
     var backButton = RoundBackButton(frame: .zero, width: 31.5)
-    
-    
     
     var title: UILabel = {
         let label = UILabel()
@@ -41,9 +41,11 @@ class FormView: UIView {
         return button
     }()
     
+    //Variables
     let configurer = FormViewConfigurer()
     let type: FormViewType
     
+    //Override methods
     init(frame: CGRect, type: FormViewType) {
         
         self.type = type
@@ -51,7 +53,6 @@ class FormView: UIView {
         
         //appearance
         backgroundColor = .white
-        
         title.text = type.rawValue
         
         //configure formFields
@@ -99,7 +100,6 @@ class FormView: UIView {
             }
             array.append(formInputItem)
         }
-        
         formInputs = array
     }
     
@@ -138,7 +138,6 @@ class FormView: UIView {
                 return
             }
         }
-        
         setSubmitButton(to: true)
     }
     
@@ -185,8 +184,7 @@ class FormView: UIView {
     @objc func tappedForgotPassword() {
         forgotPasswordDelegate?.didTapForgotPassword()
     }
-    
-    
+
     //MARK: Navigation
     @objc func tappedBack() {
         formViewDelegate?.didTapBack()

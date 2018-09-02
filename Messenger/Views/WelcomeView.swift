@@ -12,8 +12,10 @@ import AVKit
 
 class WelcomeView: UIView {
     
+    //delegate
     weak var delegate: WelcomeViewDelegate? = nil
     
+    //MARK: Views
     let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red:0.15, green:0.22, blue:0.27, alpha:1.0)
@@ -63,8 +65,10 @@ class WelcomeView: UIView {
         return button
     }()
     
+    //MARK: Variables
     var signupYConstraint: NSLayoutConstraint?
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -85,7 +89,6 @@ class WelcomeView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     //MARK: Auto layout
     func setupAutoLayout() {
@@ -112,7 +115,6 @@ class WelcomeView: UIView {
         let constraint = NSLayoutConstraint()
         constraint.constant = 150
     
-        
         login.widthAnchor.constraint(equalToConstant: 200).isActive = true
         login.heightAnchor.constraint(equalToConstant: 30).isActive = true
         login.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -121,21 +123,7 @@ class WelcomeView: UIView {
     
     //MARK: Action targets
     @objc func tappedSignUp() {
-        
         self.delegate?.didTapSignUp()
-        
-//       signupYConstraint?.constant = 0
-//
-//        UIView.animate(withDuration: 0.175, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-//
-//            self.signUp.titleLabel?.alpha = 0.0
-//            self.login.alpha = 0.0
-//            self.layoutIfNeeded()
-//
-//        }, completion: { _ in
-//
-//            self.delegate?.didTapSignUp()
-//        })
     }
     
     @objc func tappedLogin() {

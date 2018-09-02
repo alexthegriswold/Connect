@@ -26,7 +26,7 @@ class RoundBackButton: UIButton {
             circleColor = color
         }
         
-        var buttonOriginalWidth = buttonRadius * 2
+        let buttonOriginalWidth = buttonRadius * 2
         scale = width/buttonOriginalWidth
         
         xOffset = buttonRadius

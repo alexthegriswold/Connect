@@ -10,8 +10,10 @@ import UIKit
 
 class ChatImageCollectionViewCell: UICollectionViewCell {
     
+    //delegate
     weak var delegate: PhotoChatCellDelegate? = nil
     
+    //MARK: Views
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -26,10 +28,10 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    //MARK: View override functions
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-    
         [imageView].forEach { addSubview($0) }
         autoLayout()
         
@@ -37,14 +39,16 @@ class ChatImageCollectionViewCell: UICollectionViewCell {
         imageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func didTap() {
-        delegate?.didTapCell(cell: self)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Action Listeners
+    @objc func didTap() {
+        delegate?.didTapCell(cell: self)
+    }
+    
+    //MARK: Auto layout
     func autoLayout() {
         imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7).isActive = true
         imageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true

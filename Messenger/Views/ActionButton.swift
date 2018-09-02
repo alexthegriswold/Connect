@@ -10,8 +10,10 @@ import UIKit
 
 class ActionButton: UIView {
     
+    //MARK: Delegate
     weak var delegate: ActionButtonDelegate? = nil
     
+    //MARK: Views
     var plusButton: RoundBackButton = {
         let button = RoundBackButton(frame: .zero, width: 40, color: UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0))
         button.transform = CGAffineTransform(rotationAngle: -2.35619)
@@ -59,12 +61,11 @@ class ActionButton: UIView {
         return button
     }()
     
-    
-    
+    //variables
     let plusRotate = CGAffineTransform(rotationAngle: -2.35619).inverted()
-    
     var expanded = false
     
+    //MARK: Override functions
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -73,10 +74,7 @@ class ActionButton: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor(red:0.13, green:0.53, blue:0.90, alpha:1.0)
         [imageButton, videoButton, specialButton, plusButton].forEach { addSubview($0) }
-//        [imageButton, imageButton2, imageButton3].forEach { stackView.addArrangedSubview($0) }
-//        stackView.distribution = .equalSpacing
-//        stackView.spacing = 30
-        
+
         setupAutoLayout()
         
         plusButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
@@ -85,50 +83,11 @@ class ActionButton: UIView {
         specialButton.addTarget(self, action: #selector(tappedSpecialButton), for: .touchUpInside)
     }
     
-    @objc func didTap() {
-        
-        print(plusButton.transform == .identity)
-        
-        if expanded == false {
-            UIView.animate(withDuration: 0.20) {
-                //going out
-                let rotate = CGAffineTransform(rotationAngle: 0.0)
-                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 0.7, y: 0.7))
-                self.plusButton.transform = scaleWithRotate
-                [self.imageButton, self.videoButton, self.specialButton].forEach { $0.alpha = 1.0 }
-            }
-        } else {
-            UIView.animate(withDuration: 0.20) {
-                //coming in
-                let rotate = CGAffineTransform(rotationAngle: -2.35619)
-                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 1.0, y: 1.0))
-                self.plusButton.transform = scaleWithRotate
-                [self.imageButton, self.videoButton, self.specialButton].forEach { $0.alpha = 0.0 }
-            }
-        }
-      
-        expanded = !expanded
-    }
-    
-    @objc func tappedImageButton() {
-        delegate?.tappedImageButton()
-    }
-    
-    @objc func tappedVideoButton() {
-        delegate?.tappedVideoButton()
-    }
-    
-    @objc func tappedSpecialButton() {
-        delegate?.tappedSpecialButton()
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func setupAutoLayout() {
-        
-        
         [
             plusButton.widthAnchor.constraint(equalToConstant: 40),
             plusButton.heightAnchor.constraint(equalToConstant: 40),
@@ -156,6 +115,42 @@ class ActionButton: UIView {
             specialButton.leftAnchor.constraint(equalTo: videoButton.rightAnchor, constant: 15),
             specialButton.centerYAnchor.constraint(equalTo: centerYAnchor)
             ].forEach { $0.isActive = true }
+    }
+    
+    //MARK: Action listeners
+    @objc func didTap() {
+    
+        if expanded == false {
+            UIView.animate(withDuration: 0.20) {
+                //going out
+                let rotate = CGAffineTransform(rotationAngle: 0.0)
+                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 0.7, y: 0.7))
+                self.plusButton.transform = scaleWithRotate
+                [self.imageButton, self.videoButton, self.specialButton].forEach { $0.alpha = 1.0 }
+            }
+        } else {
+            UIView.animate(withDuration: 0.20) {
+                //coming in
+                let rotate = CGAffineTransform(rotationAngle: -2.35619)
+                let scaleWithRotate = rotate.concatenating(CGAffineTransform(scaleX: 1.0, y: 1.0))
+                self.plusButton.transform = scaleWithRotate
+                [self.imageButton, self.videoButton, self.specialButton].forEach { $0.alpha = 0.0 }
+            }
+        }
+        
+        expanded = !expanded
+    }
+    
+    @objc func tappedImageButton() {
+        delegate?.tappedImageButton()
+    }
+    
+    @objc func tappedVideoButton() {
+        delegate?.tappedVideoButton()
+    }
+    
+    @objc func tappedSpecialButton() {
+        delegate?.tappedSpecialButton()
     }
 }
 

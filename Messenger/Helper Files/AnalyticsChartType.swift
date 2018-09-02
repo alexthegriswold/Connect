@@ -14,5 +14,4 @@ enum AnalyticsChartType: String {
     case verticalBar = "VerticalBarChartCollectionViewCell"
     case horizontalBar = "HorizontalBarChartCollectionViewCell"
     case pieChart = "PieChartCollectionViewCell"
-    
 }
