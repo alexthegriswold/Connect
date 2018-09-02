@@ -30,6 +30,7 @@
 		2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */; };
 		2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */; };
 		2739BBA7213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */; };
+		27854BFA213B7FDD005C0922 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27854BF9213B7FDD005C0922 /* Assets.xcassets */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
 		27A622462134A10A007CE1CA /* FormViewConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A622452134A10A007CE1CA /* FormViewConfigurer.swift */; };
@@ -45,7 +46,6 @@
 		502979FB2131F039005E5DFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502979FA2131F039005E5DFB /* AppDelegate.swift */; };
 		502979FD2131F039005E5DFB /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502979FC2131F039005E5DFB /* WelcomeViewController.swift */; };
 		50297A002131F039005E5DFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502979FE2131F039005E5DFB /* Main.storyboard */; };
-		50297A022131F03A005E5DFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50297A012131F03A005E5DFB /* Assets.xcassets */; };
 		50297A052131F03A005E5DFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50297A032131F03A005E5DFB /* LaunchScreen.storyboard */; };
 		50297A0D2131F0B1005E5DFB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50297A0C2131F0B1005E5DFB /* WelcomeView.swift */; };
 		50297A1821331F3A005E5DFB /* backgroundVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 50297A172132013D005E5DFB /* backgroundVideo.mp4 */; };
@@ -78,6 +78,7 @@
 		2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosGalleryViewController.swift; sourceTree = "<group>"; };
 		2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		27854BF9213B7FDD005C0922 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27A622452134A10A007CE1CA /* FormViewConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewConfigurer.swift; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 		502979FA2131F039005E5DFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		502979FC2131F039005E5DFB /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		502979FF2131F039005E5DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		50297A012131F03A005E5DFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50297A042131F03A005E5DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		50297A062131F03A005E5DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50297A0C2131F0B1005E5DFB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 		50297A162131F14D005E5DFB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				50297A012131F03A005E5DFB /* Assets.xcassets */,
+				27854BF9213B7FDD005C0922 /* Assets.xcassets */,
 				50297A172132013D005E5DFB /* backgroundVideo.mp4 */,
 			);
 			path = Resources;
@@ -363,7 +363,7 @@
 			files = (
 				50297A1821331F3A005E5DFB /* backgroundVideo.mp4 in Resources */,
 				50297A052131F03A005E5DFB /* LaunchScreen.storyboard in Resources */,
-				50297A022131F03A005E5DFB /* Assets.xcassets in Resources */,
+				27854BFA213B7FDD005C0922 /* Assets.xcassets in Resources */,
 				50297A002131F039005E5DFB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
