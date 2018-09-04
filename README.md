@@ -23,15 +23,12 @@ username: "email@google.com"
 password: "letmein"
 
 If you've forgotten your password, you can reset for any username.
+<p align="center">
+  <img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px">
+  <img src="https://s3.amazonaws.com/griswold-github/IMG_1472.jpg" alt="Sign Up" height="500px">
+</p>
 
 
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" align="top">
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1472.jpg" alt="Sign Up" height="500px" align="top">
 <img src="https://s3.amazonaws.com/griswold-github/IMG_1475.jpg" alt="Log In" height="500px" align="top">
 
 After logging in you'll be able to tap on the input area and send a text message. You can also tap the plus button to send images or videos from your camera roll. Tap on videos in the message view to watch them!
