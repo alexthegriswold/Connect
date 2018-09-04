@@ -38,6 +38,7 @@ After logging in you'll be able to tap on the input area and send a text message
 
 <p align="center">
     <img src="https://s3.amazonaws.com/griswold-github/images.jpg" alt="Image Page" height="500px" align="top">
+    <img src="https://s3.amazonaws.com/griswold-github/photos-select.jpg" alt="Image Page" height="500px" align="top">
     <img src="https://s3.amazonaws.com/griswold-github/videos.jpg" alt="Image Page" height="500px" align="top">
 </p>
 
