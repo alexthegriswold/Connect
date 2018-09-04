@@ -12,6 +12,8 @@ Just download this repository's zip file and the project should build!
 
  ![Messenger](https://s3.amazonaws.com/griswold-github/IMG_1466.PNG)
  ![Messenger](https://s3.amazonaws.com/griswold-github/IMG_1466.PNG)
+ 
+ <img src="https://s3.amazonaws.com/griswold-github/IMG_1466.PNG" alt="alt text"  height="200">
 
 I've preloaded three users for the log in.
 
