@@ -13,6 +13,7 @@ Just download this repository's zip file and the project should build!
  <img src="https://s3.amazonaws.com/griswold-github/IMG_1466.PNG" alt="alt text"  height="300">
  <img src="https://s3.amazonaws.com/griswold-github/IMG_1466.PNG" alt="alt text"  height="300">
 
+![alt text](https://s3.amazonaws.com/griswold-github/3A395C8E-E7F5-4AF9-B137-87513506B87E.jpg "Test Image")
 
 I've preloaded three users for the log in.
 
