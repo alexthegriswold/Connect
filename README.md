@@ -10,7 +10,8 @@ Just download this repository's zip file and the project should build!
 
 ## Log in/sign up
 
-![message page](https://s3.amazonaws.com/griswold-github/IMG_1466.PNG)
+Inline-style: 
+![alt text](https://s3.amazonaws.com/griswold-github/IMG_1466.PNG "Messenger screen")
 
 I've preloaded three users for the log in.
 
