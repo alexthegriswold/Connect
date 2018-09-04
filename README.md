@@ -25,7 +25,7 @@ password: "letmein"
 If you've forgotten your password, you can reset for any username.
 
 ![alt text](https://s3.amazonaws.com/griswold-github/IMG_1471.jpg "Welcome Page")
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1472.PNG" alt="Smiley face" align="middle">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1472.PNG" alt="Smiley face" height="500px" align="middle">
 
 After logging in you'll be able to tap on the input area and send a text message. You can also tap the plus button to send images or videos from your camera roll. 
 
