@@ -24,18 +24,19 @@ password: "letmein"
 
 If you've forgotten your password, you can reset for any username.
 
-![alt text](https://s3.amazonaws.com/griswold-github/IMG_1471.jpg "Welcome Page")
-<img src="https://s3.amazonaws.com/griswold-github/IMG_1472.PNG" alt="Smiley face" height="500px" align="top">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" align="top">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1472.jpg" alt="Sign Up" height="500px" align="top">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1475.jpg" alt="Log In" height="500px" align="top">
 
-After logging in you'll be able to tap on the input area and send a text message. You can also tap the plus button to send images or videos from your camera roll. 
+After logging in you'll be able to tap on the input area and send a text message. You can also tap the plus button to send images or videos from your camera roll. Tap on videos in the message view to watch them!
 
-![alt text](https://s3.amazonaws.com/griswold-github/IMG_1465.jpg "Messenger View")
-![alt text](https://s3.amazonaws.com/griswold-github/IMG_1466.jpg "Plus Button")
-![alt text](https://s3.amazonaws.com/griswold-github/IMG_1467.jpg "Image View")
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1465.jpg" alt="Messenger View" height="500px" align="top">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1466.jpg" alt="Plus Open" height="500px" align="top">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1467.jpg" alt="Image Page" height="500px" align="top">
 
 By tapping charts you'll be able to see clean and easy to read charts in a collection view. 
 
-![alt text](https://s3.amazonaws.com/griswold-github/IMG_1469.jpg "Image View")
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1469.jpg" alt="Charts" height="500px" align="top">
 
 
 Thanks for checking out the project!! :)
