@@ -24,6 +24,9 @@ password: "letmein"
 
 If you've forgotten your password, you can reset for any username.
 
+
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" style="float: left; height: 500px; margin-right: 5px; margin-bottom: 0.5em;">
+<img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" style="float: left; height: 500px; margin-right: 5px; margin-bottom: 0.5em;">
 <img src="https://s3.amazonaws.com/griswold-github/IMG_1471.jpg" alt="Welcome" height="500px" align="top">
 <img src="https://s3.amazonaws.com/griswold-github/IMG_1472.jpg" alt="Sign Up" height="500px" align="top">
 <img src="https://s3.amazonaws.com/griswold-github/IMG_1475.jpg" alt="Log In" height="500px" align="top">
