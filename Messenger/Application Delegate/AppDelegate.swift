@@ -9,12 +9,15 @@
 import UIKit
 import Realm
 import RealmSwift
+import Firebase
+import FirebaseFirestore
+
+let global = Global()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    
-    
+
     
     var window: UIWindow?
     
@@ -22,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        
+    
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)], for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)], for: .highlighted)
         
@@ -61,3 +66,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+class Global {
+    
+    let db: Firestore
+    
+    init() {
+        FirebaseApp.configure()
+        db = Firestore.firestore()
+        let settings = db.settings
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
+        
+    }
+}

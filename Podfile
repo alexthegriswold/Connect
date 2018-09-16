@@ -9,5 +9,8 @@ target 'Messenger' do
   pod 'Charts'
   pod 'Realm'
   pod 'RealmSwift'
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+
 
 end

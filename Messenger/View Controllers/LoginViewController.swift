@@ -10,8 +10,6 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    let authenticator = UserAuthenticator()
-    
     //MARK: Views
     let formView: FormView = {
         let view = FormView(frame: .zero, type: .login)
@@ -76,22 +74,25 @@ extension LoginViewController: FormViewDelegate {
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
-        let (success, response, user) = authenticator.authenticate(password: password, for: username)
+        let loginManager = FirebaseManager()
+        let stringReponse = NetworkRequestStringResponses()
         
-        if success {
-            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), user: user!)
-            let navigationController = UINavigationController(rootViewController: messengerViewController)
-            self.present(navigationController, animated: true, completion: nil)
-        } else {
-            self.view.endEditing(true)
-            self.grayOutView.alpha = 0.5
-    
-            let alertMessage = authenticator.createLoginStringResponse(for: response)
-            let viewModel = AlertViewModel(title: "Whoops!", subtitle: alertMessage, buttonTitle: "Ok")
-            let viewController = AlertViewController(viewModel: viewModel)
-            viewController.modalPresentationStyle = .overCurrentContext
-            viewController.delegate = self
-            self.present(viewController, animated: true, completion: nil)
+        loginManager.logIn(password: password, for: username) { (success, response, user) in
+            if success {
+                let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), username: username)
+                let navigationController = UINavigationController(rootViewController: messengerViewController)
+                self.present(navigationController, animated: true, completion: nil)
+            } else {
+                self.view.endEditing(true)
+                self.grayOutView.alpha = 0.5
+                
+                let alertMessage = stringReponse.createLoginStringResponse(for: response)
+                let viewModel = AlertViewModel(title: "Whoops!", subtitle: alertMessage, buttonTitle: "Ok")
+                let viewController = AlertViewController(viewModel: viewModel)
+                viewController.modalPresentationStyle = .overCurrentContext
+                viewController.delegate = self
+                self.present(viewController, animated: true, completion: nil)
+            }
         }
     }
 }

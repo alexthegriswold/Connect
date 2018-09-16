@@ -10,8 +10,6 @@ import UIKit
 
 class ForgotPasswordViewController: UIViewController {
     
-    let authenticator = UserAuthenticator()
-    
     //MARK: Views
     let formView: FormView = {
         let view = FormView(frame: .zero, type: .forgotPassword)
@@ -65,19 +63,22 @@ extension ForgotPasswordViewController: FormViewDelegate {
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
-        let (success, response) = authenticator.resetPassword(for: username, with: password)
-        let alertString = authenticator.createResetPasswordStringResponse(for: response)
-        let title = success ? "Awesome!" : "Whoops!"
-        
-        self.view.endEditing(true)
-        self.grayOutView.alpha = 0.5
-        
-        
-        let viewModel = AlertViewModel(title: title, subtitle: alertString, buttonTitle: "Ok")
-        let viewController = AlertViewController(viewModel: viewModel)
-        viewController.modalPresentationStyle = .overCurrentContext
-        viewController.delegate = self
-        self.present(viewController, animated: true, completion: nil)
+        let firebaseManager = FirebaseManager()
+        let stringResponse = NetworkRequestStringResponses()
+        firebaseManager.resetPassword(for: username, with: password) { (success, response) in
+            
+            let alertString = stringResponse.createResetPasswordStringResponse(for: response)
+            let title = success ? "Awesome!" : "Whoops!"
+            
+            self.view.endEditing(true)
+            self.grayOutView.alpha = 0.5
+            
+            let viewModel = AlertViewModel(title: title, subtitle: alertString, buttonTitle: "Ok")
+            let viewController = AlertViewController(viewModel: viewModel)
+            viewController.modalPresentationStyle = .overCurrentContext
+            viewController.delegate = self
+            self.present(viewController, animated: true, completion: nil)
+        }
     }
 }
 

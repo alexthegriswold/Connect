@@ -24,13 +24,13 @@ class MessengerViewController: UICollectionViewController {
     var actionButtonWidthConstraint: NSLayoutConstraint?
     
     //objects
-    let user: User
+    let username: String
     let authenicator = UserAuthenticator()
     let textSimulator = TextSimulator()
     
     //override functions
-    init(collectionViewLayout layout: UICollectionViewLayout, user: User) {
-        self.user = user
+    init(collectionViewLayout layout: UICollectionViewLayout, username: String) {
+        self.username = username
         super.init(collectionViewLayout: layout)
     }
     
@@ -187,7 +187,8 @@ class MessengerViewController: UICollectionViewController {
     }
     
     @objc func dismissViewController() {
-        authenicator.signOut(user: user)
+        //TODO
+        //authenicator.signOut(user: user)
         self.dismiss(animated: true, completion: nil)
     }
     

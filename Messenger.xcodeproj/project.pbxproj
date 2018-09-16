@@ -30,6 +30,9 @@
 		2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */; };
 		2739BBA5213A4A7A007B1D23 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */; };
 		2739BBA7213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */; };
+		27485021214D81B000EA927D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27485020214D81B000EA927D /* GoogleService-Info.plist */; };
+		27485023214D92F400EA927D /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27485022214D92F400EA927D /* FirebaseManager.swift */; };
+		27485025214EDBED00EA927D /* NetworkRequestStringResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27485024214EDBED00EA927D /* NetworkRequestStringResponses.swift */; };
 		27854BFA213B7FDD005C0922 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27854BF9213B7FDD005C0922 /* Assets.xcassets */; };
 		27A6224221347CC7007CE1CA /* FormInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224121347CC7007CE1CA /* FormInputItem.swift */; };
 		27A6224421349D93007CE1CA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A6224321349D93007CE1CA /* LoginViewController.swift */; };
@@ -78,6 +81,9 @@
 		2739BBA2213A401F007B1D23 /* PhotosGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosGalleryViewController.swift; sourceTree = "<group>"; };
 		2739BBA4213A4A7A007B1D23 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2739BBA6213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		27485020214D81B000EA927D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		27485022214D92F400EA927D /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		27485024214EDBED00EA927D /* NetworkRequestStringResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestStringResponses.swift; sourceTree = "<group>"; };
 		27854BF9213B7FDD005C0922 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		27A6224121347CC7007CE1CA /* FormInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputItem.swift; sourceTree = "<group>"; };
 		27A6224321349D93007CE1CA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +194,7 @@
 		502979F92131F039005E5DFB /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
+				27485020214D81B000EA927D /* GoogleService-Info.plist */,
 				2739BB842137409E007B1D23 /* Collection View Cells */,
 				27ACBAE321364F290058349F /* View Models */,
 				27ACBAD82135D86D0058349F /* Animated Transistions */,
@@ -247,6 +254,7 @@
 		50297A132131F106005E5DFB /* Helper Files */ = {
 			isa = PBXGroup;
 			children = (
+				27485022214D92F400EA927D /* FirebaseManager.swift */,
 				27A622452134A10A007CE1CA /* FormViewConfigurer.swift */,
 				270A26CB213AB7130096C24B /* UserAuthenticator.swift */,
 				270A26CD213ABB220096C24B /* UserTestDataGenerator.swift */,
@@ -254,6 +262,7 @@
 				270A26CF213AE2440096C24B /* ChatCellType.swift */,
 				270A26D1213AE9250096C24B /* TextSimulator.swift */,
 				270A26DB213B66F50096C24B /* MessengerViewSizeProperties.swift */,
+				27485024214EDBED00EA927D /* NetworkRequestStringResponses.swift */,
 			);
 			path = "Helper Files";
 			sourceTree = "<group>";
@@ -363,6 +372,7 @@
 			files = (
 				50297A1821331F3A005E5DFB /* backgroundVideo.mp4 in Resources */,
 				50297A052131F03A005E5DFB /* LaunchScreen.storyboard in Resources */,
+				27485021214D81B000EA927D /* GoogleService-Info.plist in Resources */,
 				27854BFA213B7FDD005C0922 /* Assets.xcassets in Resources */,
 				50297A002131F039005E5DFB /* Main.storyboard in Resources */,
 			);
@@ -378,15 +388,33 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Messenger/Pods-Messenger-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -442,6 +470,7 @@
 				27ACBAE02136462D0058349F /* AlertView.swift in Sources */,
 				2739BBA7213AA5A9007B1D23 /* ChatImageCollectionViewCell.swift in Sources */,
 				2739BBA1213A32AD007B1D23 /* ActionButton.swift in Sources */,
+				27485023214D92F400EA927D /* FirebaseManager.swift in Sources */,
 				2739BB9321378353007B1D23 /* AnalyticsChartType.swift in Sources */,
 				2739BBA3213A401F007B1D23 /* PhotosGalleryViewController.swift in Sources */,
 				2739BB9D2139B0C6007B1D23 /* MessengerInputView.swift in Sources */,
@@ -453,6 +482,7 @@
 				2739BB83213733F6007B1D23 /* AnalyticsCollectionViewController.swift in Sources */,
 				2739BB9B2138EA87007B1D23 /* SenderChatCell.swift in Sources */,
 				2739BB8A213740F7007B1D23 /* VerticalBarChartCollectionViewCell.swift in Sources */,
+				27485025214EDBED00EA927D /* NetworkRequestStringResponses.swift in Sources */,
 				2739BB88213740E6007B1D23 /* SingleLineChartCollectionViewCell.swift in Sources */,
 				27ACBADE213634F40058349F /* LoginAnimationController.swift in Sources */,
 				270A26D2213AE9250096C24B /* TextSimulator.swift in Sources */,
