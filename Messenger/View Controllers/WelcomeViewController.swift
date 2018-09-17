@@ -45,63 +45,6 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        //let messagesManager = MessagesManager()
-        //messagesManager.uploadVideo(with: URL(fileURLWithPath: "path"), name: "name", type: "mp4")
-        
-
-        var newMessages = [FirebaseMessage]()
-        
-        
-        
-        global.db.collection("messages").getDocuments()  { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    
-                    
-                   
-                    guard let type = data["type"] as? String else { continue }
-                    
-                    print(type)
-                    
-                    if type == "text" {
-                        
-                        guard let user = data["user"] as? String else { continue }
-                        guard let text = data["text"] as? String else { continue }
-        
-                        
-                        print(user, text)
-                        let message = FirebaseMessage(user: user, type: type, mediaUrl: nil, text: text)
-                        
-                        newMessages.append(message)
-                        
-                    } else if type == "image" {
-                        guard let user = data["user"] as? String else { continue }
-                        guard let imageUrl = data["mediaUrl"] as? String else { continue }
-                        
-                        let message = FirebaseMessage(user: user, type: type, mediaUrl: imageUrl, text: nil)
-                        
-                        newMessages.append(message)
-                        
-                    } else if type == "video" {
-                        guard let user = data["user"] as? String else { continue }
-                        guard let videoUrl = data["mediaUrl"] as? String else { continue }
-                        
-                        let message = FirebaseMessage(user: user, type: type, mediaUrl: videoUrl, text: nil)
-                        
-                        newMessages.append(message)
-                    }
-                }
-                
-                for message in newMessages {
-                    print(message)
-                }
-            }
-        }
-    
         welcomeView.frame = self.view.frame
         [welcomeView].forEach { view.addSubview($0) }
         setupVideoLayer()
@@ -113,16 +56,10 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if let user = authenticator.checkIfLoggedIn() {
-            //TODO
-            let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), username: "HEY")
-            let navigationController = UINavigationController(rootViewController: messengerViewController)
-            self.present(navigationController, animated: false, completion: nil)
-        } else {
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
-            welcomeView.signUp.titleLabel?.alpha = 1.0
-            welcomeView.login.alpha = 1.0
-        }
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        welcomeView.signUp.titleLabel?.alpha = 1.0
+        welcomeView.login.alpha = 1.0
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

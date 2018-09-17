@@ -74,6 +74,9 @@ extension SignUpViewController: FormViewDelegate {
     }
     
     func didTapSubmit(formEntries: [String]) {
+        
+        self.formView.submitButton.startLoading()
+        
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
@@ -81,6 +84,9 @@ extension SignUpViewController: FormViewDelegate {
         let stringResponse = NetworkRequestStringResponses()
         
         firebaseManager.createUser(username: username, password: password) { (success, response, user) in
+            
+            self.formView.submitButton.stopLoading()
+            
             if success {
                 let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), username: username)
                 let navigationController = UINavigationController(rootViewController: messengerViewController)

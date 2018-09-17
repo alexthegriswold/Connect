@@ -11,9 +11,12 @@ import AVFoundation
 
 class Message {
     let type: ChatCellType
-    let image: UIImage?
+    var image: UIImage?
     let text: String?
-    let video: AVAsset?
+    var video: AVAsset?
+    
+    var imageURL: URL?
+    var videoURL: URL?
     
     init(type: ChatCellType, image: UIImage? = nil, text: String? = nil, video: AVAsset? = nil) {
         self.type = type

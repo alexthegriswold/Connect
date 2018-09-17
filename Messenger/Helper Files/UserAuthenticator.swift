@@ -17,7 +17,6 @@ class UserAuthenticator {
     
     let realm = try! Realm()
 
-    
     func authenticate(username: String) -> Bool {
         
         let docRef = global.db.collection("users").document(username)
@@ -43,7 +42,7 @@ class UserAuthenticator {
         
         let docRef = global.db.collection("users").document(username)
         docRef.getDocument { (document, err) in
-            if let error = err {
+            if err != nil {
                 print("Some error happened")
             } else {
                 if let document = document {
@@ -58,7 +57,7 @@ class UserAuthenticator {
         let userIsSignedInRef = global.db.collection("signedInUsers").document(username)
         
         userIsSignedInRef.setData(["signedIn": true]) { (error) in
-            if let error = error {
+            if error != nil {
                 print("error happened")
             }
         }
@@ -76,7 +75,7 @@ class UserAuthenticator {
     func resetPassword(for username: String, with password: String) -> (Bool, AuthenticationResponse){
         let docRef = global.db.collection("users").document(username)
         docRef.setData(["username": username, "password": password]) { (error) in
-            if let error = error {
+            if error != nil {
                 print("unable to reset password")
             }
         }
@@ -121,7 +120,7 @@ class UserAuthenticator {
             let userIsSignedInRef = global.db.collection("signedInUsers").document(username)
             
             userIsSignedInRef.setData(["signedIn": true]) { (error) in
-                if let error = error {
+                if error != nil {
                     print("error happened")
                 }
             }

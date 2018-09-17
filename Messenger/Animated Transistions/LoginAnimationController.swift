@@ -41,10 +41,8 @@ class LoginAnimationController: NSObject, UIViewControllerAnimatedTransitioning 
         }, completion: { _ in
             
             let success = !transitionContext.transitionWasCancelled
-            if !success {
-                toView.removeFromSuperview()
-            }
-            transitionContext.completeTransition(success)
+            fromView.removeFromSuperview()
+            transitionContext.completeTransition(true)
         })
     }
     

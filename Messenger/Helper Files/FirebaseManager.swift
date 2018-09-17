@@ -24,9 +24,7 @@ class FirebaseManager {
         
         docRef.getDocument { (doc, err) in
             
-            print(err)
-            
-            guard err == nil else {
+            if err != nil {
                 completion(false, .error)
                 return
             }
@@ -35,12 +33,6 @@ class FirebaseManager {
                 completion(false, nil)
                 return
             }
-            
-            
-            if let data = document.data() {
-                print(data["username"])
-            }
-            
             
             completion(document.exists, nil)
         }
@@ -104,7 +96,7 @@ class FirebaseManager {
         
         userIsSignedInRef.setData(["signedIn": true]) { (err) in
         
-            if let error = err {
+            if err != nil {
                 completion(.error)
             } else {
                 completion(nil)
@@ -115,10 +107,9 @@ class FirebaseManager {
     //reset password
     func resetPassword(for username: String, with password: String, _ completion:  @escaping (Bool, AuthenticationResponse) -> Void) {
         
-        
         checkIfValid(username: username) { (isUser, err) in
-            guard let error = err else {
-                completion(false, .invalidUser)
+            if err != nil {
+                completion(false, .networkError)
                 return
             }
             
@@ -127,7 +118,7 @@ class FirebaseManager {
                 "username": username,
                 "password": password
             ]) { (err) in
-                if let error = err {
+                if err != nil {
                     completion(false, .networkError)
                 } else {
                     completion(true, .success)
@@ -149,7 +140,7 @@ class FirebaseManager {
         }
         
         checkIfValid(username: username) { (isUser, err) in
-            if let error = err {
+            if err != nil {
                 completion(false, .networkError, nil)
                 return
             }
@@ -163,7 +154,7 @@ class FirebaseManager {
                 "username": username,
                 "password": password
             ]) { (error) in
-                if let error = error {
+                if error != nil {
                     completion(false, .networkError, nil)
                     return
                 }
@@ -189,7 +180,7 @@ class FirebaseManager {
         let docRef = global.db.collection("signedInUsers").document(username)
         
         docRef.updateData(["signedIn": true]) { (err) in
-            if let error = err {
+            if err != nil {
                 completion(false, .error)
             } else {
                 completion(true, nil)
@@ -209,23 +200,3 @@ class FirebaseManager {
         return Int(phone) == nil ? false : true
     }
 }
-
-//data structure
-struct FirebaseUser {
-    let username: String
-    var password: String
-    var messages: [FirebaseMessage]
-}
-
-struct FirebaseMessage {
-    let user: String
-    let type: String
-    let mediaUrl: String?
-    let text: String?
-}
-
-//when we create a message, we're going to upload it to the server
-//we'll have a snapshot of messages ordered by date and then assign them to sender or receiver
-
-
-

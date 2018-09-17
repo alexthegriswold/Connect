@@ -12,6 +12,7 @@ target 'Messenger' do
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  pod 'Alamofire', '~> 4.7'
 
 
 end

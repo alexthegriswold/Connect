@@ -15,19 +15,13 @@ import AVFoundation
 class MessagesManager {
     
     var messages = [Message]()
-    
+
     let username: String
     
     init(username: String) {
         self.username = username
     }
 
-    //the way that each thing is going to work
-    //the image will get added locally as normal
-    //text will get uploaded to the database
-    //image and videos will have links to the video and image
-    //images get downloaded but videos will only be downloaded when tapped
-    
     func uploadImage(image: UIImage, timestamp: Timestamp) {
         let storageRef = global.storage.reference()
     
@@ -60,44 +54,42 @@ class MessagesManager {
     }
     
     func updateImageDownloadURL(downloadUrl: URL, timestamp: Timestamp) {
-        let collectionRef = global.db.collection("messages")
+        let collectionRef = global.db.collection("users").document(username).collection("messages")
         let query = collectionRef
             .whereField("timestamp", isEqualTo: timestamp)
-            .whereField("username", isEqualTo: username)
         
         query.getDocuments { (documents, error) in
             guard error == nil else {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
                 return
             }
             
             let document = documents?.documents.first
             guard let id = document?.documentID else { return }
             
-            let collectionRef = global.db.collection("messages").document(id)
-            collectionRef.updateData(["imageURL": downloadUrl
+            let documentRef = collectionRef.document(id)
+            documentRef.updateData(["imageURL": downloadUrl
                 .absoluteString])
             
         }
     }
     
     func updateVideoDownloadURL(downloadUrl: URL, timestamp: Timestamp) {
-        let collectionRef = global.db.collection("messages")
+        let collectionRef = global.db.collection("users").document(username).collection("messages")
         let query = collectionRef
             .whereField("timestamp", isEqualTo: timestamp)
-            .whereField("username", isEqualTo: username)
         
         query.getDocuments { (documents, error) in
             guard error == nil else {
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
                 return
             }
             
             let document = documents?.documents.first
             guard let id = document?.documentID else { return }
             
-            let collectionRef = global.db.collection("messages").document(id)
-            collectionRef.updateData(["videoURL": downloadUrl
+            let documentRef = collectionRef.document(id)
+            documentRef.updateData(["videoURL": downloadUrl
                 .absoluteString])
         }
     }
@@ -145,13 +137,9 @@ class MessagesManager {
         
         let videoURL = docDir.appendingPathComponent(name)
     
-        
         if fileManager.fileExists(atPath: videoURL.path) {
-            print("that file is already there!")
             self.uploadVideo(with: videoURL, name: name, type: type, timestamp: timestamp)
         } else {
-            
-            print("that file not already there!")
             let exportSession = AVAssetExportSession(asset: video, presetName: AVAssetExportPresetMediumQuality)
             exportSession?.outputFileType = getAVFileType(for: type)
             exportSession?.outputURL = videoURL
@@ -167,7 +155,7 @@ class MessagesManager {
     func getAVFileType(for fileExtension: String) -> AVFileType {
         let fileExt = fileExtension.lowercased()
         
-        switch fileExtension {
+        switch fileExt {
         case "mp4":
             return AVFileType.mp4
         default:
@@ -175,28 +163,23 @@ class MessagesManager {
         }
     }
     
-    
-    //we need the image name and extension
-    //we need video name and extension
     func createNewMessage(message: Message, username: String, uploadInfo: [String: Any]? = nil) {
         let type = message.type
-        let collectionRef = global.db.collection("messages")
+        let collectionRef = global.db.collection("users").document(username).collection("messages")
         let timestamp = Timestamp(date: Date())
         
         if type == .sending || type == .receiving {
             collectionRef.addDocument(data: [
                 "type" : type.rawValue,
                 "text" : message.text!,
-                "timestamp" : timestamp,
-                "username" : username
+                "timestamp" : timestamp
             ])
         } else if type == .image {
             guard let image = message.image else { return }
             
             collectionRef.addDocument(data: [
                 "type" : type.rawValue,
-                "timestamp" : timestamp,
-                "username" : username
+                "timestamp" : timestamp
             ]) { (error) in
                 if error == nil {
                     self.uploadImage(image: image, timestamp: timestamp)
@@ -210,8 +193,7 @@ class MessagesManager {
             
             collectionRef.addDocument(data: [
                 "type" : type.rawValue,
-                "timestamp" : timestamp,
-                "username" : username
+                "timestamp" : timestamp
             ]) { (error) in
                 if error == nil {
                     self.uploadImage(image: image, timestamp: timestamp)
@@ -221,3 +203,6 @@ class MessagesManager {
         }
     }
 }
+
+
+

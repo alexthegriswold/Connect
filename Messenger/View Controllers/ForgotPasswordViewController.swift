@@ -57,6 +57,7 @@ extension ForgotPasswordViewController: FormViewDelegate {
     }
     
     func didTapSubmit(formEntries: [String]) {
+        self.formView.submitButton.startLoading()
         self.view.endEditing(true)
         self.grayOutView.alpha = 0.5
         
@@ -66,7 +67,7 @@ extension ForgotPasswordViewController: FormViewDelegate {
         let firebaseManager = FirebaseManager()
         let stringResponse = NetworkRequestStringResponses()
         firebaseManager.resetPassword(for: username, with: password) { (success, response) in
-            
+            self.formView.submitButton.stopLoading()
             let alertString = stringResponse.createResetPasswordStringResponse(for: response)
             let title = success ? "Awesome!" : "Whoops!"
             

@@ -301,7 +301,7 @@ extension MessengerViewController: MessengerInputViewDelegate {
         
         let newMessage = Message(type: .sending, image: nil, text: message)
         addToMessages(message: newMessage)
-        
+        messagesManager.createNewMessage(message: newMessage, username: username)
         if messages.count > 0 {
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
@@ -390,8 +390,12 @@ extension MessengerViewController: PhotoChatCellDelegate {
         
         guard let indexPath = collectionView?.indexPath(for: cell) else { return }
         if messages[indexPath.item].type == .video {
-            guard let video = messages[indexPath.item].video else { return }
-            let videoViewController = VideoPlayerViewController(video: video)
+            
+            guard let image = messages[indexPath.item].image else { return }
+            let video = messages[indexPath.item].video
+            let videoURL = messages[indexPath.item].videoURL
+        
+            let videoViewController = VideoPlayerViewController(image: image, video: video, videoURL: videoURL)
             videoViewController.modalPresentationStyle = .currentContext
             self.present(videoViewController, animated: true, completion: nil)
         }

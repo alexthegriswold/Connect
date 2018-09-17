@@ -37,6 +37,8 @@ class LoginViewController: UIViewController {
         grayOutView.frame = view.frame
         [formView, grayOutView].forEach { view.addSubview($0) }
         
+        
+       
         //navbar
         //setupNavBar()
     }
@@ -71,6 +73,8 @@ extension LoginViewController: FormViewDelegate {
     
     func didTapSubmit(formEntries: [String]) {
         
+        self.formView.submitButton.startLoading()
+        
         let username = formEntries[0].lowercased()
         let password = formEntries[1]
         
@@ -79,10 +83,15 @@ extension LoginViewController: FormViewDelegate {
         
         loginManager.logIn(password: password, for: username) { (success, response, user) in
             if success {
-                let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), username: username)
-                let navigationController = UINavigationController(rootViewController: messengerViewController)
-                self.present(navigationController, animated: true, completion: nil)
+                
+                
+
+                let downloader = MessagesDownloader()
+                downloader.retreiveMessages(for: username)
+                downloader.delegate = self
+                
             } else {
+                self.formView.submitButton.stopLoading()
                 self.view.endEditing(true)
                 self.grayOutView.alpha = 0.5
                 
@@ -113,10 +122,23 @@ extension LoginViewController: AlertViewControllerDelegate {
 extension LoginViewController: LoadingViewControllerDelegate {
     func loadingTimedOut() {
         
+        
         let viewModel = AlertViewModel(title: "Bad Connection", subtitle: "We were unable to sign you in. Please try again later.", buttonTitle: "Ok")
         let viewController = AlertViewController(viewModel: viewModel)
         viewController.modalPresentationStyle = .overCurrentContext
         viewController.delegate = self
+        
         self.present(viewController, animated: false, completion: nil)
+        
+    }
+}
+
+extension LoginViewController: MessagesDownloaderDelegate {
+    func downloadEnded(messages: [Message], username: String) {
+        self.formView.submitButton.stopLoading()
+        let messengerViewController = MessengerViewController(collectionViewLayout: UICollectionViewFlowLayout(), username: username)
+        messengerViewController.messages = messages
+        let navigationController = UINavigationController(rootViewController: messengerViewController)
+        self.present(navigationController, animated: true, completion: nil)
     }
 }

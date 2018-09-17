@@ -10,6 +10,8 @@ import UIKit
 
 class FormView: UIView {
     
+    
+    
     //MARK: Delegates
     weak var forgotPasswordDelegate: ForgotPasswordViewDelegate? = nil
     weak var formViewDelegate: FormViewDelegate? = nil
@@ -28,18 +30,8 @@ class FormView: UIView {
     
     var formInputs =  [FormInputItem]()
     
-    let submitButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .gray
-        button.isEnabled = false
-        button.setTitle("Submit", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        button.layer.cornerRadius = 25
-        button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let submitButton = SubmitButton()
+    
     
     //Variables
     let configurer = FormViewConfigurer()
@@ -123,9 +115,11 @@ class FormView: UIView {
     
     func setSubmitButton(to active: Bool) {
         if active {
+            submitButton.setTitleColor(.white, for: .normal)
             submitButton.backgroundColor = UIColor(red:0.26, green:0.64, blue:0.96, alpha:1.0)
             submitButton.isEnabled = true
         } else {
+            submitButton.setTitleColor(.black, for: .normal)
             submitButton.backgroundColor = UIColor(red:0.69, green:0.75, blue:0.77, alpha:1.0)
             submitButton.isEnabled = false
         }
