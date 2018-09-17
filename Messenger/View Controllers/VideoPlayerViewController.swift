@@ -14,7 +14,7 @@ class VideoPlayerViewController: UIViewController {
     
     var avPlayer: AVPlayer?
     var avPlayerLayer: AVPlayerLayer?
-    var avPlayerItem: AVPlayerItem?
+    
     
     //variables
     var paused: Bool = false
@@ -37,6 +37,7 @@ class VideoPlayerViewController: UIViewController {
             view.addSubview(imageView)
             imageView.image = image
             imageView.frame = view.frame
+            
             //load the video and get loading screen
             guard let url = videoURL else { return }
             guard let name = url.absoluteString.split(separator: "/").last else { return }
@@ -51,7 +52,7 @@ class VideoPlayerViewController: UIViewController {
         }).responseData { (response) in
             if let data = response.result.value {
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                let videoURL = documentsURL.appendingPathComponent(name)
+                let videoURL = documentsURL.appendingPathComponent("videoFile.mp4")
                 do {
                     try data.write(to: videoURL)
                 } catch {
@@ -77,8 +78,8 @@ class VideoPlayerViewController: UIViewController {
     
     func setupVideoLayer(video: AVAsset) {
         
-        avPlayerItem = AVPlayerItem(asset: video)
-        avPlayer = AVPlayer(playerItem: avPlayerItem)
+        let playerItem = AVPlayerItem(asset: video)
+        avPlayer = AVPlayer(playerItem: playerItem)
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         
         if let avPlayerLayer = avPlayerLayer, let avPlayer = avPlayer {
@@ -94,13 +95,12 @@ class VideoPlayerViewController: UIViewController {
                                                    selector: #selector(playerItemDidReachEnd(notification:)),
                                                    name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                    object: avPlayer.currentItem)
+            
+            UIView.animate(withDuration: 0.25) {
+                self.imageView.alpha = 0.0
+            }
+            avPlayer.play()
         }
-        
-        avPlayer?.play()
-        UIView.animate(withDuration: 0.25) {
-            self.imageView.alpha = 0.0
-        }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

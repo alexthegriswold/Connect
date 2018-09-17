@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "141"
             endingLineNumber = "141"
-            landmarkName = "MessengerViewController"
-            landmarkType = "3">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -31,8 +31,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "223"
             endingLineNumber = "223"
-            landmarkName = "handleKeyboardNotification(notification:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -138,11 +138,11 @@
                   moduleName = "Messenger"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/melindagriswold/Downloads/Messenger/Messenger/Helper%20Files/MessagesManager.swift"
-                  timestampString = "558879999.3048559"
+                  timestampString = "558891936.761761"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
                   offsetFromSymbolStart = "1364">
                </Location>
                <Location
@@ -153,11 +153,11 @@
                   moduleName = "Messenger"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/melindagriswold/Downloads/Messenger/Messenger/Helper%20Files/MessagesManager.swift"
-                  timestampString = "558879999.306497"
+                  timestampString = "558891936.763343"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109"
                   offsetFromSymbolStart = "36">
                </Location>
             </Locations>
@@ -320,22 +320,6 @@
             startingLineNumber = "171"
             endingLineNumber = "171"
             landmarkName = "createNewMessage(message:username:uploadInfo:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Messenger/View Controllers/MessengerViewController.swift"
-            timestampString = "558882289.56628"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
-            landmarkName = "didTapCell(cell:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
