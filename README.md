@@ -4,6 +4,10 @@
 - Realm 
 - RealmSwift
 - Charts
+- Firebase
+- FirebaseFirestore
+- FirebaseStorage
+- Alamofire
 
 ### Installation Instructions
 Just download this repository's zip file and the project should build! 
