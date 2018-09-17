@@ -46,20 +46,9 @@ class WelcomeViewController: UIViewController, WelcomeViewDelegate {
         super.viewDidLoad()
         
         
+        //let messagesManager = MessagesManager()
+        //messagesManager.uploadVideo(with: URL(fileURLWithPath: "path"), name: "name", type: "mp4")
         
-        
-//        ref = global.db.collection("messages").addDocument(data: [
-//            "user": "9547896903",
-//            "type": "text",
-//            "text": "Hey! Good to see you. newer",
-//            "timestamp": FieldValue.serverTimestamp()
-//        ]) { err in
-//            if let err = err {
-//                print("Error adding document: \(err)")
-//            } else {
-//                print("Document added with ID: \(ref!.documentID)")
-//            }
-//        }
 
         var newMessages = [FirebaseMessage]()
         

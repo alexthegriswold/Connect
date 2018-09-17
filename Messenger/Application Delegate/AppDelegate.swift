@@ -11,6 +11,7 @@ import Realm
 import RealmSwift
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 let global = Global()
 
@@ -70,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 class Global {
     
     let db: Firestore
+    let storage: Storage
     
     init() {
         FirebaseApp.configure()
@@ -77,6 +79,6 @@ class Global {
         let settings = db.settings
         settings.areTimestampsInSnapshotsEnabled = true
         db.settings = settings
-        
+        storage = Storage.storage()
     }
 }

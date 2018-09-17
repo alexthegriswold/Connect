@@ -13,6 +13,8 @@ class PhotosGalleryViewController: UICollectionViewController {
     
     
     var videoAsset: AVAsset? = nil
+    var videoName: String? = nil
+    var videoExtension: String? = nil
     weak var delegate: PhotosGalleryDelegate? = nil
     var imageToSend: UIImage?
     let grayOutView: UIView = {
@@ -53,7 +55,7 @@ class PhotosGalleryViewController: UICollectionViewController {
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         if isPhotoSelector {
-            return PHAsset.fetchAssets(with: allPhotosOptions)
+            return PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
         } else {
             return PHAsset.fetchAssets(with: .video, options: allPhotosOptions)
         }
@@ -120,6 +122,15 @@ class PhotosGalleryViewController: UICollectionViewController {
             imageManager.requestAVAsset(forVideo: asset, options: nil) { (asset, audioMix, info) in
                 guard let safeAsset = asset else { return }
                 self.videoAsset = safeAsset
+                if let info = info {
+                    if let filename = info["PHImageFileSandboxExtensionTokenKey"] as? String {
+                        guard let videoName = filename.split(separator: "/").last else { fatalError() }
+                        guard let videoExtension = videoName.split(separator: ".").last else { fatalError() }
+                        
+                        self.videoName = String(videoName)
+                        self.videoExtension = String(videoExtension)
+                    }
+                }
             }
         }
         
@@ -174,12 +185,12 @@ class PhotosGalleryViewController: UICollectionViewController {
         
         
         if isPhotoSelector {
-            if let image = imageToSend {
+            if let image = imageToSend  {
                 self.delegate?.selectedPhoto(image: image)
             }
         } else {
-            if let image = imageToSend, let videoAsset = videoAsset {
-                self.delegate?.selectedVideo(video: videoAsset, image: image)
+            if let image = imageToSend, let videoAsset = videoAsset, let videoName = videoName, let videoExtension = videoExtension {
+                self.delegate?.selectedVideo(video: videoAsset, image: image, name: videoName, fileExtension: videoExtension)
             }
         }
         
@@ -199,5 +210,5 @@ extension PhotosGalleryViewController: UICollectionViewDelegateFlowLayout {
 
 protocol PhotosGalleryDelegate: class {
     func selectedPhoto(image: UIImage)
-    func selectedVideo(video: AVAsset, image: UIImage)
+    func selectedVideo(video: AVAsset, image: UIImage, name: String, fileExtension: String)
 }

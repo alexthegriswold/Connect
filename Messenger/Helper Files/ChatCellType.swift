@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum ChatCellType {
-    case sending, receiving, image, video
+enum ChatCellType: String {
+    case sending = "sending", receiving = "receiving", image = "image", video = "video"
 }

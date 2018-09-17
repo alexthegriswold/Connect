@@ -28,9 +28,12 @@ class MessengerViewController: UICollectionViewController {
     let authenicator = UserAuthenticator()
     let textSimulator = TextSimulator()
     
+    let messagesManager: MessagesManager
+    
     //override functions
     init(collectionViewLayout layout: UICollectionViewLayout, username: String) {
         self.username = username
+        messagesManager = MessagesManager(username: username)
         super.init(collectionViewLayout: layout)
     }
     
@@ -145,6 +148,8 @@ class MessengerViewController: UICollectionViewController {
     }
     
     func addToMessages(message: Message) {
+        
+        
         messages.append(message)
         self.collectionView?.insertItems(at: [IndexPath(row: self.messages.count - 1, section: 0)])
 
@@ -332,11 +337,20 @@ extension MessengerViewController: PhotosGalleryDelegate {
     
         let newMessage = Message(type: .image, image: image, text: nil)
         addToMessages(message: newMessage)
+        messagesManager.createNewMessage(message: newMessage, username: username)
+        
     }
     
-    func selectedVideo(video: AVAsset, image: UIImage) {
+    func selectedVideo(video: AVAsset, image: UIImage, name: String, fileExtension: String) {
         let newMessage = Message(type: .video, image: image, text: nil, video: video)
         addToMessages(message: newMessage)
+        
+        let uploadInfo = [
+            "name": name,
+            "type": fileExtension
+        ]
+        messagesManager.createNewMessage(message: newMessage, username: username, uploadInfo: uploadInfo)
+        
     }
 }
 
@@ -361,6 +375,7 @@ extension MessengerViewController: TextSimulatorDelegate {
     func didRecieveText(message: String) {
         let newMessage = Message(type: .receiving, image: nil, text: message)
         messages.append(newMessage)
+        messagesManager.createNewMessage(message: newMessage, username: username)
         collectionView?.insertItems(at: [IndexPath(row: messages.count - 1, section: 0)])
         
         if messages.count > 0 {
